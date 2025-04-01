@@ -1,0 +1,15 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "CISO",
+        "DHCW",
+        "Fiori",
+        "kickstarting",
+        "shadcn"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
