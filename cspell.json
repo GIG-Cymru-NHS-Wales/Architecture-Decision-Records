@@ -3,7 +3,12 @@
     "ignorePaths": [],
     "dictionaryDefinitions": [],
     "dictionaries": [],
-    "words": [],
+    "words": [
+        "DHCW",
+        "IGDC",
+        "NCSC",
+        "UKNCSC"
+    ],
     "ignoreWords": [],
     "import": []
 }
