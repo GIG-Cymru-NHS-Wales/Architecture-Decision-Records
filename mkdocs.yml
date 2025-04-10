@@ -38,5 +38,5 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
 plugins:
-   - search
-   - awesome-nav
+  - search
+  - table-reader

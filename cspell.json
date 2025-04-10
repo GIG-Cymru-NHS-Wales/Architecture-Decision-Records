@@ -6,10 +6,13 @@
     "words": [
         "CISO",
         "DHCW",
+        "Fiori",
         "IGDC",
+        "kickstarting",
         "NCSC",
         "UKNCSC",
         "organisation"
+        "shadcn"
     ],
     "ignoreWords": [],
     "import": []
