@@ -2,7 +2,11 @@
 
 This site provides NHS Wales architecture related information.
 
-## Introduction to Architecture Decision Records
+## Principles
+
+See [DHCW Architecture Principles](design-authority/principles/index.md)
+
+## Decisions
 
 An Architecture Decision Record (ADR) is a document that captures an important architecture decision made along with its context and consequences.
 

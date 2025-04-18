@@ -2,6 +2,10 @@ append_unmatched: true
 flatten_single_child_sections: true
 nav:
   - Home: index.md
+  - Principles:
+    - DHCW Design Authority:
+      - design-authority/principles/index.md
+      - Principles: design-authority/principles/
   - Decisions:
     - DHCW Design Authority:
       - design-authority/dhcw/index.md
