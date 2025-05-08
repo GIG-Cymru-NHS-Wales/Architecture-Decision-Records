@@ -97,6 +97,14 @@ Kubernetes is a foundational technology for cloud-native infrastructure,
 enabling resilient, scalable, and portable application deployments across
 diverse environments.
 
+**kubectl** is the command-line tool used to interact with Kubernetes clusters,
+allowing users to deploy applications, inspect and manage cluster resources, and
+view logs or events. It communicates with the Kubernetes API server to execute
+commands such as creating pods, scaling deployments, updating configurations,
+and troubleshooting workloads. The kubectl command is essential for developers
+and administrators working with Kubernetes, providing a powerful and flexible
+interface for managing the full lifecycle of containerized applications.
+
 **Buildah** is an open-source command-line tool designed to create and manage
 container images without requiring a Docker daemon. It enables developers to
 build container images in a flexible and lightweight manner, either by using a
@@ -146,6 +154,15 @@ registries, and integration with vulnerability scanners such as Trivy for
 continuous scanning. It automates security checks on container images as they're
 pushed or pulled, enabling organizations to enforce policies and maintain a
 secure software supply chain throughout the development lifecycle.
+
+**Kind** (Kubernetes in Docker) is an open-source tool for running local
+Kubernetes clusters using Docker container "nodes." Designed primarily for
+testing and development, Kind allows users to spin up lightweight Kubernetes
+clusters without needing virtual machines or external cloud infrastructure. It
+runs each Kubernetes node inside a Docker container, making it ideal for CI/CD
+pipelines, prototyping, and learning Kubernetes in a controlled,
+resource-efficient environment. Kind supports multi-node clusters and integrates
+well with standard Kubernetes tooling like `kubectl`.
 
 **Crossplane** is an open-source, multi-cloud control plane that enables the
 management of cloud infrastructure and services using Kubernetes-style
