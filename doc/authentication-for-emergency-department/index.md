@@ -45,6 +45,8 @@ The hospital emergency department setting has challenges that are different than
 
 For example, we're discovering challenges related to mobile phone text/app authentication, mobile phone camera authentication, and touchscreen interfaces.
 
+Some of the needs require many authentications, such as a clinician who needs to approve a specialized treatment, such as the treatment of a minor, or treatment using a restricted medication, etc. A clinician may need to do this 20x daily.
+
 
 ### Can we rely on mobile phone text/app authentication?
 
@@ -105,6 +107,15 @@ Maybe. Probably yes if we try to use a medical-grade disinfectable large touchsc
 We aim to create good-enough security, good-enough speed, and good-enough convenience.
 
 We are currently investigating many options.
+
+
+### Use autocomplete with email address
+
+There are a variety of ways to do autocomplete with the user's email address.
+
+* Store a local cache of recently-used email addresses. This may be viable for a device that is only used by a list of pre-approved professionals, such as for the emergency depertment staff using an emergency department kiosk. For example, a person types the first letter "a" then sees the most-recent email addresses that starts with "a" such as "alice@example.com", "andy@example.com", etc.
+
+* Provide autocomplete just for expected hostnames because these are organization-identifying, not usernames because these are personally-identifying. For example, a user types "alice@" then sees the list of suggested hostnames such as "alice@example.com", "alice@gmail.com", etc.
 
 
 ### Touchless chips
