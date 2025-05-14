@@ -44,7 +44,8 @@ standards.
 
 ## Be public internet capable
 
-Digital services should be deployed on public cloud infrastructure.
+All digital services should use internet standards and protocols so that they
+can be deployed over public internet.
 
 ??? info "Rationale"
 
