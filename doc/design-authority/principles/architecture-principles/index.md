@@ -6,50 +6,46 @@
 
 ## Deliver sustainable services
 
-All digital services need to be delivered sustainably.
+Digital services need to be delivered sustainably.
 
-## Put our Tools in Modern Browsers
+## Be accessible through any modern browser
 
-All digital services should be browser based and utilise open web standards.
+All digital services need to be browser based and to comply with open web
+standards.
 
-## Internet first
+## Be public internet capable
 
-All digital services should adopt internet standards and protocols including
-setting the default that services are available over the public internet.
+Digital services should be deployed on public cloud infrastructure.
 
-## Public Cloud first
+## Be public cloud capable
 
 Digital services should move to the public cloud unless there is a clear reason
 not to do so.
 
-## Build a data layer with registers and APIs
+## Read and write data to the NDR single data layer
 
-Digital services should only store data once (usually where collected) and make
-it available via open APIs whilst maintaining privacy and security.
+All digital services should read and write to the NDR single data layer through
+standard open APIs.
 
-## Adopt appropriate cyber security standards
+## Meet or exceed cyber security and privacy standards
 
-Services must adopt the appropriate cyber security standards subject to risk
-appetite, including keeping all software, networks and systems up to date.
+All digital services must meet or exceed cyber security and privacy standards.
 
-## Use Platforms
+## Use common platforms and components
 
-Digital services should build upon existing platforms to deliver their services.
+Digital services should use common platforms and components where possible.
 
-## Ask what the user need is
+## Design for users by understanding user needs
 
-Every service must be designed around user needs, whether the needs of the
-public, clinicians or other staff.
+All digital service should be designed for users, based on understanding user
+needs and engaging with users throughout design development and operation
+lifecycles.
 
-## Interoperability with open data and technology standards
+## Be interoperable through Open APIs
 
-Digital services should adopt open data and technology standards.
+All digital services should be interoperable with others, exposing data and
+functionality using open standards through APIs.
 
-## Reuse before buy / build
+## Design for change
 
-Digital services should demonstrate that they have sought to reuse existing
-solutions before delivering new ones. Where is it not possible to reuse an
-existing solution, off the-shelf (commercial or open source) products should be
-considered. For open-source products there should be an appropriate level of
-contractual support provided. Only having ruled out the former two options
-should a new solution be built, either in-house or through third parties
+Digital services should be designed to make future changes easy.
