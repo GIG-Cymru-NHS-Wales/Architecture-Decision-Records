@@ -126,7 +126,7 @@ The process for reviewing and finalising an ADR varies by its defined level:
   Assurance Group (TDAG) agenda as a Level 2 decision.
 
 * **TDG Formation:** The proposer explains the ADR at the TDAG and requests
-  volunteers to form a TDG. The TDG must include at least **two** reviewers, 
+  volunteers to form a TDG. The TDG must include at least **two** reviewers,
   in addition to the proposer.
 
 * **Review Timeframe:** The proposer, in consultation with the TDG, sets a
