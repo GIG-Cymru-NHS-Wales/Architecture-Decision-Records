@@ -39,4 +39,4 @@ Adopt an Architecture Decision Record structure with mandatory and optional fiel
 * Aligns with existing terminology and structure that teams will be familiar with.  
 * The structure enables flexibility in format, storage and publishing.
 
-See [Architecture Decision Record Template](architecture-decision-record-template.md)
+See [Architecture Decision Record Template](../architecture-decision-record-template.md)

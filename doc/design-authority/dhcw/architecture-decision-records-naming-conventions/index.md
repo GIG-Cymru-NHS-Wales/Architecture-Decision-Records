@@ -11,7 +11,7 @@
 
 * We want to record architecture related decisions for NHS Wales organisations, made via agreed governance mechanisms.
 * We need to agree a **naming convention** for the records i.e how to name records and refer to them.
-* We should also agree a **filename convention** aligned with the naming convention.
+* We should also agree a **folder & filename convention** aligned with the naming convention.
 
 ## Background - Decision Drivers
 
@@ -68,25 +68,72 @@ Avoiding acronyms and using human readable names makes them easier for users to 
 * "This **_record_** builds on the previous **_decision_**" (good - emphasis only added here for clarity).
 * "This _Architecture Decision Record_ builds on the previous _Architecture Decision Record_" (worse/avoid).
 
-### Filenames
+### Folder and Filenames
 
-Given the above, apply the following convention to **filenames**: Match the Title of the record and remove whitespace and adopt kebab style e.g.
+Given the above, apply the following convention to the storage and naming of
+records, this convention makes publishing easier even though it adds a little
+complexity:
 
-* ``architecture-decision-records-naming-conventions.md``
-* ``use-architecture-decision-records-and-structure.md``
-* ``format-architecture-decision-records-with-markdown.md``
+Each decision should have its own **folder**, whose name should match the
+**Title** of the record, with whitespace removed and adopting a kebab style
+e.g.
+
+* ``./architecture-decision-records-naming-conventions/``
+* ``./use-architecture-decision-records-and-structure/``
+* ``./format-architecture-decision-records-with-markdown/``
+
+Within each folder create an `index.md` file which contains the decision
+contents. Create a symbolic link from `README.md` to `index.md` - this ensures
+that GitHub renders the documents when navigating the repository e.g.
+
+* ``./architecture-decision-records-naming-conventions/index.md``
+* ``./architecture-decision-records-naming-conventions/README.md -> index.md``
+
+Both ``index.md`` and ``README.md`` should be added and committed to Git.
+
+???+ Tip "Creating a symbolic link (Windows/Mac/Linux)"
+
+    === "Windows"
+
+        You can think of a symbolic link as a shortcut that points to another
+        file.
+
+        Note PowerShell doesn't seem to create relative symbolic links so you
+        must instead launch Command Prompt with Admin privileges, navigate to
+        the folder containing the index.md and run:
+
+        ``mklink README.md index.md``
+
+        Running ``dir`` afterwards should show output similar to this:
+
+        ```
+            > dir
+             ...
+            16/05/2025  13:04    <DIR>          .
+            16/05/2025  13:01    <DIR>          ..
+            16/05/2025  13:01             5,660 index.md
+            16/05/2025  13:04    <SYMLINK>      README.md [index.md]
+        ```
+
+    === "MacOS/Linux"
+
+        Navigate to the folder containing the index.md and run:
+
+        ``ln -s index.md README.md``
 
 ### Cross Referencing
 
-When cross-referencing decisions, use the full title of the decision and link to the record filename itself e.g.
+When cross-referencing decisions, use the full title of the decision and add
+a relative link to the record ``index.md`` itself e.g.
 
-* See [Architecture Decision Records Naming Conventions](architecture-decision-records-naming-conventions.md)
+* See [Architecture Decision Records Naming Conventions](../architecture-decision-records-naming-conventions/index.md)
 
 ### Branches
 
-Git branch names should utilise the same convention as the main filename of the decision itself e.g.
+Git branch names should utilise the same convention as the main folder name of
+the decision itself e.g.
 
-* ``git checkout -m architecture-decision-records-naming-conventions``
+* ``git checkout -b architecture-decision-records-naming-conventions``
 
 ### Confirmation
 
@@ -94,4 +141,4 @@ This decision will be enforced by reviewers of newly submitted records, who shou
 
 ## More Information
 
-See [Use Architecture Decision Records and Structure](use-architecture-decision-records-and-structure.md) for the structure of records.
+See [Use Architecture Decision Records and Structure](../use-architecture-decision-records-and-structure/index.md) for the structure of records.
