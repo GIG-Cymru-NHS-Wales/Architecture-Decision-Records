@@ -10,7 +10,7 @@
 ## Situation - Context and Problem Statement
 
 * We want to record architecture related decisions for NHS Wales organisations, made via agreed governance mechanisms.
-* The **structure** is decided by [Use Architecture Decision Records](use-architecture-decision-records-and-structure.md)
+* The **structure** is decided by [Use Architecture Decision Records](../use-architecture-decision-records-and-structure/index.md)
 * We need to agree the **format**.
 
 ## Background - Decision Drivers
@@ -49,4 +49,4 @@ Format Architecture Decision Records as plaintext Markdown documents, using the 
 
 ## More Information
 
-See [Use Architecture Decision Records and Structure](use-architecture-decision-records-and-structure.md) for the structure of an Architecture Decision Record.
+See [Use Architecture Decision Records and Structure](../use-architecture-decision-records-and-structure/index.md) for the structure of an Architecture Decision Record.
