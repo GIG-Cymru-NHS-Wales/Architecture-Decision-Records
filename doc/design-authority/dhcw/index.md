@@ -3,6 +3,8 @@
 Documents in this section are architecture decision records for [DHCW](https://https://dhcw.nhs.wales/),
 the governance of which is via the Technical Design Authority (TDA).
 
+See [ADR Process](architecture-decision-record-process/index.md).
+
 The initial records are:
 
 * [Use Architecture Decision Records and Structure](use-architecture-decision-records-and-structure/index.md)

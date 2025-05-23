@@ -30,12 +30,4 @@ Our first decisions are for [DHCW](https://https://dhcw.nhs.wales/) to utilise a
 
 ### Creating a new record
 
-To create a new record:
-
-* Create a branch from ``main`` see [naming conventions](design-authority/dhcw/architecture-decision-records-naming-conventions/index.md)
-
-* Make a copy of [the template](design-authority/dhcw/architecture-decision-record-template.md).
-
-* Enter as much detail as you can in the record
-
-* Create a [Pull Request](https://github.com/GIG-Cymru-NHS-Wales/Architecture-Decision-Records/pulls) on GitHub.com
+See [Process](design-authority/dhcw/architecture-decision-record-process/index.md)

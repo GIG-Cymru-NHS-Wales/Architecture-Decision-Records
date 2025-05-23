@@ -3,8 +3,10 @@
 !!! info
 
     **Status**: { Proposed | Under Review | Accepted |
-              Rejected | Superseded | Deprecated }
+                  Rejected | Superseded   | Deprecated }
     
+    **Level**: { 1 - 4 }
+
     **Updated**: {YYYY-MM-DD}
 
 ## Summary
