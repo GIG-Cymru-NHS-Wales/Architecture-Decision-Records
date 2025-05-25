@@ -480,3 +480,48 @@ Throughout the development process, the TDG (or proposer) should actively
 seek feedback from relevant stakeholders, including other architects,
 developers, operations engineers, and business representatives. This feedback
 should be incorporated into the ADR document.
+
+## Appendix - ADR Creation Workflow
+
+The following diagram illustrates the typical end-to-end process for creating
+and approving an ADR, from initial idea to a recorded decision.
+
+```mermaid
+graph TD
+    accTitle: ADR Workflow
+    accDescr: Flowchart showing the typical steps for proposing, developing, and deciding on an Architecture Decision Record.
+
+    Start(["Start: Identify need for a new or updated ADR"]) --> Raise_GitHub_Issue("Optional: Raise GitHub Issue for Early Discussion");
+    Raise_GitHub_Issue          --> Is_Sensitive{"Is ADR content expected to be **sensitive**?"};
+
+    %% Private or Public ADR
+    Is_Sensitive        -- Yes  --> Request_Private["Request private process from TDAG (Level 1-3) or TDA (Level 4)"];
+    Is_Sensitive        -- No   --> Process_Publicly;
+
+    Request_Private             --> Private_Approval{"Private Process Approved?"};
+    Private_Approval    -- Yes  --> Process_Privately["ADR Handled **Privately**: Secure discussion & storage. **Optional** public placeholder on GitHub."];
+    Private_Approval    -- No   --> Process_Publicly["ADR Handled **Publicly**: Open discussion, public storage via GitHub & Pull Request process"];
+    Process_Privately           --> TDG_Decision{"Decison Level?"};
+    Process_Publicly            --> TDG_Decision;
+
+    %% Level 1 Process
+    TDG_Decision        -- 'Level 1'    --> Peer_Review_ADR["Proposer requests ADR Peer Review (default: 1 week)"];
+    Peer_Review_ADR     --> TDG_Consensus_Q
+
+    %% Level 2 - 4 Process
+    TDG_Decision        -- 'Level >= 2' --> Flag_TDAG_TDA["Flag to TDAG (Level 2 & 3) or TDA (Level 4)"];
+
+    Flag_TDAG_TDA --> TDG_Formed["TDG Formed (Proposer + members, size / composition varies by level)"];
+
+    TDG_Formed --> TDG_Collaboration["TDG Collaborates, Reviews & Seeks Consensus (default: 2 weeks)"];
+
+    TDG_Collaboration --> TDG_Consensus_Q{"General Consensus on ADR?"};
+    TDG_Consensus_Q -- Yes --> Accept_Reject_ADR;
+    TDG_Consensus_Q -- No --> Escalate["Escalate to TDAG (Level 1 - 3) or TDA (Level 4) for Resolution"];
+    Escalate --> TDAG_TDA_Decides["TDAG/TDA Makes Final Decision"];
+    TDAG_TDA_Decides --> Accept_Reject_ADR;
+
+    %% Finalise ADR
+    Accept_Reject_ADR["Update ADR Status (e.g., 'Accepted', 'Rejected') & Merge Pull Request"] --> Notify_Governance["Notify TDAG (Level 1-3) and TDA (Level 4)"];
+    Notify_Governance --> End(["End"]);
+```
