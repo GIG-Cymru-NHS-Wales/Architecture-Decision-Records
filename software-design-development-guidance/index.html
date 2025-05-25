@@ -1,0 +1,3908 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://gig-cymru-nhs-wales.github.io/software-design-development-guidance/">
+      
+      
+        <link rel="prev" href="../ways-of-working/">
+      
+      
+        <link rel="next" href="gov-uk-prototype-kit/">
+      
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Software design development guidance - GIG Cymru NHS Wales - Architecture</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  <script>
+    /* Check if  consent was given for Simple Analytics */
+    var consent = __md_get("__consent")
+    if (consent && consent.analytics) {
+        /* properties not used currently */
+        var property = "" 
+      
+        /* Wait for page to load and application to mount */
+        document.addEventListener("DOMContentLoaded", (event) => {
+            <!-- 100% privacy-first analytics -->
+            var simple_analytics=document.createElement("script");
+            simple_analytics.async=!0;
+            simple_analytics.src="https://scripts.simpleanalyticscdn.com/latest.js";
+            document.body.appendChild(simple_analytics);
+        });    
+      }
+
+  </script>
+  
+    <script>if("undefined"!=typeof __md_analytics){var consent=__md_get("__consent");consent&&consent.analytics&&__md_analytics()}</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="custom" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#software-design-development-guidance" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="GIG Cymru NHS Wales - Architecture" class="md-header__button md-logo" aria-label="GIG Cymru NHS Wales - Architecture" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GIG Cymru NHS Wales - Architecture
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Software design development guidance
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GIG-Cymru-NHS-Wales/Architecture-Decision-Records/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../design-authority/principles/" class="md-tabs__link">
+          
+  
+  
+  Principles
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../design-authority/dhcw/architecture-decision-record-template/" class="md-tabs__link">
+          
+  
+  
+  Decisions
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="GIG Cymru NHS Wales - Architecture" class="md-nav__button md-logo" aria-label="GIG Cymru NHS Wales - Architecture" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    GIG Cymru NHS Wales - Architecture
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GIG-Cymru-NHS-Wales/Architecture-Decision-Records/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Principles
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Principles
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DHCW Design Authority
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            DHCW Design Authority
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_2" id="__nav_2_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Principles
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Principles
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/architecture-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/cloud-and-infrastructure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud and Infrastructure Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/data-and-analytics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data &amp; Analytics Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/digital-workplace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Workplace Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/open-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Open Architecture &amp; Integration Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/security-and-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Identity &amp; Security Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/user-centred-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User-Centred Design (UCD) Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Decisions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Decisions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/architecture-decision-record-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Decision Template
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DHCW Design Authority
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            DHCW Design Authority
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Decisions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Decisions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/architecture-decision-record-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture Decision Record Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/architecture-decision-records-naming-conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture Decision Records Naming Convention
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/format-architecture-decision-records-with-markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Format Architecture Decision Records using plaintext Markdown
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/use-architecture-decision-records-and-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use Architecture Decision Records and Structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/use-material-for-mkdocs-for-publishing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use Material for MkDocs for Publishing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Enterprise Architecture Metamodel
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Enterprise Architecture Metamodel
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/ea-metamodel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/ea-metamodel/multiple-application-instances/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Multiple Application Instances
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Meta Decisions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Meta Decisions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../meta-decisions/lint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lint
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../meta-decisions/mermaid-for-diagrams/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use Mermaid for Diagrams
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../meta-decisions/site-navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Site Navigation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../meta-decisions/spell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../containerization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Containerization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../coordinated-vulnerability-disclosure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Coordinated Vulnerability Disclosure (CVD)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git-organizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git organizations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hosting-data-in-the-united-states-or-the-united-kingdom/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hosting data in the United States or the United Kingdom
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knowledge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knowledge
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../live-dora-metrics-dashboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Live DORA Metrics Dashboards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python-script-runner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    python script runner
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminology-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Terminology services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../united-kingdom-national-cyber-security-centre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    United Kingdom (UK) National Cyber Security Centre (NCSC)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ways-of-working/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ways Of Working (WOW)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_11" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_11" id="__nav_3_5_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Software design development guidance
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_11_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5_11">
+            <span class="md-nav__icon md-icon"></span>
+            Software design development guidance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Software design development guidance
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Software design development guidance
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#situation-context-and-problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Situation - Context and Problem Statement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background-decision-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Background - Decision Drivers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assessment-considered-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assessment - Considered Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Assessment - Considered Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#government-guideline-govuk-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Government guideline: GOV.UK Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#government-guideline-govuk-prototype-kit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Government guideline: GOV.UK Prototype Kit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#government-guideline-nhsuk-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Government guideline: NHS.UK Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#government-guideline-uk-office-of-national-statistics-ons-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Government guideline: UK Office of National Statistics (ONS) Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#government-guideline-18f-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Government guideline: 18F Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-apple-human-interfaces-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Apple Human Interfaces Guidelines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-google-material-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Google Material Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-microsoft-fluent-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Microsoft Fluent Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-ibm-carbon-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: IBM Carbon Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-gitlab-pajamas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: GitLab Pajamas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-wix-studio-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Wix Studio Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-salesforce-lightning-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Salesforce Lightning Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-atlassian-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Atlassian Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-adobe-spectrum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Adobe Spectrum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-mailchimp-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Mailchimp Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-etrade-design-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: ETrade Design Language
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-uber-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Uber Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-the-guardian-digital-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: The Guardian Digital Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-sap-fiori-for-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: SAP Fiori for Web
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-framework-shadcn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component framework: shadcn
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-framework-flowbite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component framework: Flowbite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-framework-skeletonui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component framework: SkeletonUI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluations-opinions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evaluations - Opinions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluations - Opinions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#by-joel" class="md-nav__link">
+    <span class="md-ellipsis">
+      By Joel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendation-decision-outcome" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recommendation - Decision Outcome
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consequences
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gov-uk-prototype-kit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GOV.UK Prototype Kit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#situation-context-and-problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Situation - Context and Problem Statement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#background-decision-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Background - Decision Drivers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assessment-considered-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assessment - Considered Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Assessment - Considered Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#government-guideline-govuk-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Government guideline: GOV.UK Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#government-guideline-govuk-prototype-kit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Government guideline: GOV.UK Prototype Kit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#government-guideline-nhsuk-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Government guideline: NHS.UK Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#government-guideline-uk-office-of-national-statistics-ons-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Government guideline: UK Office of National Statistics (ONS) Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#government-guideline-18f-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Government guideline: 18F Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-apple-human-interfaces-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Apple Human Interfaces Guidelines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-google-material-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Google Material Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-microsoft-fluent-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Microsoft Fluent Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-ibm-carbon-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: IBM Carbon Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-gitlab-pajamas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: GitLab Pajamas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-wix-studio-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Wix Studio Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-salesforce-lightning-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Salesforce Lightning Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-atlassian-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Atlassian Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-adobe-spectrum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Adobe Spectrum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-mailchimp-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Mailchimp Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-etrade-design-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: ETrade Design Language
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-uber-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: Uber Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-the-guardian-digital-design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: The Guardian Digital Design System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#business-specifications-sap-fiori-for-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      Business specifications: SAP Fiori for Web
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-framework-shadcn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component framework: shadcn
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-framework-flowbite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component framework: Flowbite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-framework-skeletonui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component framework: SkeletonUI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluations-opinions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evaluations - Opinions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluations - Opinions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#by-joel" class="md-nav__link">
+    <span class="md-ellipsis">
+      By Joel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendation-decision-outcome" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recommendation - Decision Outcome
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consequences
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/GIG-Cymru-NHS-Wales/Architecture-Decision-Records/edit/main/doc/software-design-development-guidance/index.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/GIG-Cymru-NHS-Wales/Architecture-Decision-Records/raw/main/doc/software-design-development-guidance/index.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="software-design-development-guidance">Software design development guidance</h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Work in Progress</p>
+</div>
+<p><strong>Status</strong>: first sketch, work in progress, request for collaboration</p>
+<p><strong>Date</strong>: Updated 2025-04-01</p>
+<p><strong>Governance</strong>: To Be Discovered; potentially a combo of this repo participants, DHCW CISO, NHS Wales UCB peers, etc.</p>
+<h2 id="situation-context-and-problem-statement">Situation - Context and Problem Statement</h2>
+<p>Broadly we need to design and develop many software products for patients and healthcare workers, and we want our design and development to emphasize usability, accessibility, maintainability, and similar system quality attributes.</p>
+<p>Narrowly we need to immediately design and develop the emergency department module, and we need to give the program some UI/UX guardrails:</p>
+<ul>
+<li>
+<p>Design system: e.g. how should a top navigation menu look and feel to the user.</p>
+</li>
+<li>
+<p>Development system: e.g. how should a programmer implement the menu with JavaScript/TypeScript.</p>
+</li>
+<li>
+<p>Testing system: e.g. how to test the menu for accessibility, multi-language capability, etc.</p>
+</li>
+</ul>
+<h2 id="background-decision-drivers">Background - Decision Drivers</h2>
+<p>We want to get good-enough quality work in place now, so we can try it out, ask for feedback, and seek help from peers and advisors.</p>
+<p>We want to align with existing design-development recommends, not reinvent the wheel.</p>
+<p>We generally favor considering systems that we are confident are relevant and ready:</p>
+<ul>
+<li>
+<p>Government guidelines: GOV.UK Design System, NHS.UK Design System, 18F Design System, others?</p>
+</li>
+<li>
+<p>Business specifications: Apple Human Interfaces Guidelines, Google Material Design, Microsoft Fluent Design System, others?</p>
+</li>
+<li>
+<p>Free open source components using JavaScript and TypeScript: shadcn, Flowbite, SkeletonUI, others?</p>
+</li>
+</ul>
+<p>We want to use accessibility:</p>
+<ul>
+<li><a href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines (WCAG) 2.2</a> including must-have minimum level A, should-have medium level AA, could-have maximum level AAA.</li>
+</ul>
+<h2 id="assessment-considered-options">Assessment - Considered Options</h2>
+<p>We generally favor considering systems that we are confident are relevant and ready:</p>
+<p><a href="https://www.wix.com/studio/blog/design-system-examples">Introductory summaries are by Wix</a></p>
+<p>Government guideline options:</p>
+<ul>
+<li>
+<p><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></p>
+</li>
+<li>
+<p><a href="https://prototype-kit.service.gov.uk/">GOV.UK Prototype Kit</a></p>
+</li>
+<li>
+<p><a href="https://service-manual.nhs.uk/design-system">NHS.UK: Design system</a></p>
+</li>
+<li>
+<p><a href="https://service-manual.ons.gov.uk/design-system">UK Office of National Statistics (ONS) Design System</a></p>
+</li>
+<li>
+<p><a href="https://guides.18f.gov/ux-guide/design/use-a-design-system/">18F.gov: The U.S. Web Design System</a></p>
+</li>
+</ul>
+<p>Business specifications options:</p>
+<ul>
+<li>
+<p><a href="https://developer.apple.com/design/human-interface-guidelines">Apple Human Interface Guidelines (HIG)</a></p>
+</li>
+<li>
+<p><a href="https://m3.material.io/">Google Material Design 3</a></p>
+</li>
+<li>
+<p><a href="https://fluent2.microsoft.design/">Microsoft Fluent 2 Design System</a></p>
+</li>
+<li>
+<p><a href="https://carbondesignsystem.com/">IBM Carbon Design System</a></p>
+</li>
+<li>
+<p>Gitlab Pajamas</p>
+</li>
+<li>
+<p><a href="https://www.wix.com/studio/blog/design-system-examples">Wix Studio Design System</a></p>
+</li>
+<li>
+<p>Salesforce Lightning Design System</p>
+</li>
+<li>
+<p>Atlassian Design System</p>
+</li>
+<li>
+<p>Adobe Spectrum</p>
+</li>
+<li>
+<p>Mailchimp Design System</p>
+</li>
+<li>
+<p>ETrade Design Language</p>
+</li>
+<li>
+<p>Uber Design System</p>
+</li>
+<li>
+<p>The Guardian Digital Design System</p>
+</li>
+<li>
+<p>SAP Fiori for Web</p>
+</li>
+</ul>
+<p>Component frameworks:</p>
+<ul>
+<li>
+<p><a href="https://ui.shadcn.com/">shadch: build your component library</a></p>
+</li>
+<li>
+<p><a href="https://flowbite.com/">Flowbite: Build websites even faster with components</a></p>
+</li>
+<li>
+<p><a href="https://www.skeleton.dev/">SkeletonUI adaptive design system</a></p>
+</li>
+</ul>
+<h3 id="government-guideline-govuk-design-system">Government guideline: GOV.UK Design System</h3>
+<p><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></p>
+<p>TODO</p>
+<h3 id="government-guideline-govuk-prototype-kit">Government guideline: GOV.UK Prototype Kit</h3>
+<p><a href="https://prototype-kit.service.gov.uk/">GOV.UK Prototype Kit</a></p>
+<p><a href="gov-uk-prototype-kit/">Our ADR assessment: unfit because it's poorly maintained</a></p>
+<h3 id="government-guideline-nhsuk-design-system">Government guideline: NHS.UK Design System</h3>
+<p><a href="https://service-manual.nhs.uk/design-system">NHS.UK: Design system</a></p>
+<p>TODO</p>
+<h3 id="government-guideline-uk-office-of-national-statistics-ons-design-system">Government guideline: UK Office of National Statistics (ONS) Design System</h3>
+<p><a href="https://service-manual.ons.gov.uk/design-system">UK Office of National Statistics (ONS) Design System</a></p>
+<p>TODO</p>
+<h3 id="government-guideline-18f-design-system">Government guideline: 18F Design System</h3>
+<p><a href="https://guides.18f.gov/ux-guide/design/use-a-design-system/">18F.gov: The U.S. Web Design System</a></p>
+<p>TODO</p>
+<h3 id="business-specifications-apple-human-interfaces-guidelines">Business specifications: Apple Human Interfaces Guidelines</h3>
+<p><a href="https://developer.apple.com/design/human-interface-guidelines">Apple Human Interface Guidelines (HIG)</a></p>
+<p>Apple’s Human Interface Guidelines are for those who design, develop and distribute apps through Apple’s platforms (macOS, iOS, watchOS, tvOS and visionOS). The brand has additional guidelines organized by tech vertical, covering 28 additional branded elements such as CarPlay, HomeKit, Augmented Reality, iCloud and Wallet.</p>
+<p>Under each platform, you can find guidance on app architecture, user interaction, system capabilities and visual design. Each section offers in-depth guidance on the intended use of each interface element and the rationale behind it. The goal is to ensure that apps offered through Apple’s platforms feel familiar and consistent to people who use them.</p>
+<p>There’s also an extensive resource library with Sketch, Photoshop and Adobe XD files, which house a range of UI elements and specifications. You can also watch video sessions and tutorials on how to build intuitive, user-friendly experiences.</p>
+<h3 id="business-specifications-google-material-design">Business specifications: Google Material Design</h3>
+<p><a href="https://m3.material.io/">Google Material Design 3</a></p>
+<p>Going on a decade strong, Material Design has inspired many other companies to adopt their own design systems. It builds upon the metaphor of material, meaning that components are created to mimic the physical world and its textures (such as how objects reflect light and cast shadows). The idea is that when components behave like real-world objects, they become more familiar and predictable, which in turn reduces cognitive load for users.</p>
+<p>Material Design is comprehensive and covers an array of topics ranging from design principles like color, typography, and iconography, to UI components–many of which are available as open source–to code documentation and other resources.</p>
+<p>In 2018, Google introduced Material Theming, which extends Material Design principles to other brands, allowing designers to style components according to their brand’s needs. It added much-needed flexibility to the system, by offering ways to customize a single set of components. A series of hypothetical case studies, called Material Studies, demonstrate how components can be styled to fit any product, ranging from a finance app to an eCommerce app.</p>
+<h3 id="business-specifications-microsoft-fluent-design-system">Business specifications: Microsoft Fluent Design System</h3>
+<p><a href="https://fluent2.microsoft.design/">Microsoft Fluent 2 Design System</a></p>
+<p>First developed in 2017, Fluent is a collection of UX frameworks and UI components that share code, a unified design approach and a consistent set of interaction behaviors. The design system helps build coherent experiences across platforms, including web, Windows, iOS, Android and macOS. Last year, Microsoft announced Fluent 2, touted as the next evolution of the design system which enables more seamless collaboration and creativity.</p>
+<p>Fluent 2 highlights five sensory elements (light, depth, motion, material and scale) using the physical world as its vocabulary. By taking inspiration from the physical world, Fluent guides the creation of experiences that feel as natural as possible. This can extend across devices that people use throughout their day (like tablet and mobile), plus experiences that are designed beyond a flat screen (such as mixed reality interfaces).</p>
+<p>Fluent is an open source design system. It’s connected to a LinkedIn group where customers, partners, and a community of designers and developers can submit feedback to help improve the system.</p>
+<h3 id="business-specifications-ibm-carbon-design-system">Business specifications: IBM Carbon Design System</h3>
+<p><a href="https://carbondesignsystem.com/">IBM Carbon Design System</a></p>
+<p>The IBM Carbon Design System is an open-source system for all of IBM’s digital products. The system consists of human-interface guidelines, working code, and design resources, and is connected to a community of contributors. It aims to improve UI consistency and quality through clear, discoverable guidance around design and development best practices.</p>
+<p>The design system emphasizes its open-source nature by providing standards and documentation on how to contribute components and patterns, report issues or provide general feedback through its GitHub community.</p>
+<p>The Carbon design system has a counterpart, the IBM Design Language, which focuses on the company’s design philosophy, design principles and its visual language guidelines.</p>
+<h3 id="business-specifications-gitlab-pajamas">Business specifications: GitLab Pajamas</h3>
+<p>GitLab is a repository manager which lets teams collaborate on code. It’s an open core product (meaning its a software that combines aspects of both open and closed source models), with over 2,000 community contributors. The Pajamas design system ensures GitLab’s contributors are provided with the resources and know-how for contributing to the system. It includes detailed documentation on how to submit UX proposals, feature proposals and enhanced code implementations.</p>
+<p>There’s even a section on community-based UX research contributions, accompanied by a UX Research Handbook and training resources for those who want to contribute.</p>
+<p>The design elements in this system are very clearly organized and follow an atomic design approach, as they’re labeled components, regions and objects. This method, developed by Brad Frost in his book Atomic Design, emphasizes a modular approach in combining elements such as basic UI components to create increasingly more complex objects, such as an entire page.</p>
+<h3 id="business-specifications-wix-studio-design-system">Business specifications: Wix Studio Design System</h3>
+<p>Wix Studio's Design System offers a comprehensive toolkit for developers and designers to craft beautiful and intuitive product experiences. We use it to create our website pages and Wix Studio applications.</p>
+<p>The Wix Studio Design System offers: a library with core UI components, various sets of design patterns for use in different contexts, a Figma kit with components, icons and ready-to-use page templates, detailed component documentation including demos and props reference, a sub-brand for developers with the same DNA but a different vibe, an interactive playground for hands-on exploration, and more.</p>
+<p>For developers, the Wix Studio Design System includes a React library of core reusable components. This library streamlines the rapid prototyping and development of Wix-styled applications. For designers, the Wix Studio Design System includes a Figma kit to integrate Wix Studio design assets into their design workflow. This kit fosters enhanced collaboration and iteration throughout the design process, simplifies cooperation with developers, and ensures adherence to Wix Studio's visual standards.</p>
+<h3 id="business-specifications-salesforce-lightning-design-system">Business specifications: Salesforce Lightning Design System</h3>
+<p>Created nearly ten years ago, the Salesforce Lightning Design System is an excellent example of a design system that’s evolved over time. SLDS establishes principles and best practices for designing enterprise applications across the Salesforce ecosystem. Rather than focusing on pixels, it allows designers to focus on user experience, interactions, and flows, and helps developers focus on application logic.</p>
+<p>Salesforce also pioneered the use of design tokens, which store visual design attributes (e.g., color, font size, spacing) that can be applied and updated across components and platforms. Rather than hard-coding individual values as visual designs evolve, design tokens ensure that changes are reflected across the entire product experience. They allow for a consistent visual system that's also much simpler to scale.</p>
+<h3 id="business-specifications-atlassian-design-system">Business specifications: Atlassian Design System</h3>
+<p>Atlassian recently introduced their new design system, which is a combination of two older sites (Atlassian Design Guidelines and Atlaskit). Prior to introducing the new system, Atlassian’s design guidelines and code documentation were hosted on separate sites, which led to growing inconsistencies that reflected a design and code split.</p>
+<p>With the new design system, Atlassian weaves content and code together from both sites so that designers, developers, and content designers have a unified destination to update, contribute to, and build upon. The new design system includes a section on brand mission, personality, values and brand promise. It also lays out guidelines for foundations, components, patterns, content and resources to help simplify the creation process.</p>
+<h3 id="business-specifications-adobe-spectrum">Business specifications: Adobe Spectrum</h3>
+<p>Available to the public since 2019, Spectrum defines a common experience across Adobe’s family of applications. A driving force for Spectrum is that once you learn one Adobe tool, you can easily pick up a second one and know how to navigate its UI to get things done. The system also helps ensure a consistent experience across platforms, such that if you begin a project on your iPad, you can finish it on your desktop or phone.</p>
+<p>Adobe’s design system also has a plugin for XD that provides instant access to Spectrum, which draws components dynamically based on a design token system. The plugin lets you explore all the variants and properties of a given component, with direct access to its documentation. Stay on the lookout for Spectrum 2, the next iteration of Adobe’s design system set to launch some time this year.</p>
+<h3 id="business-specifications-mailchimp-design-system">Business specifications: Mailchimp Design System</h3>
+<p>Mailchimp is a marketing automation platform and email marketing service. In 2018, Mailchimp updated their brand to feel bolder and more expressive, through winking humor and playful illustrations. Their design system also takes on this colorful identity.</p>
+<p>Their design system consists of two sections: foundations and components. It has an impressive data visualization section, offering detailed guidance on how to tell a clear and compelling data story. The guidelines include color groupings that are optimized for visual harmony, consistency, predictability and accessibility. It also provides guidance on how color, shapes, and spacing can be used to communicate data in a way that’s clear and on-brand.</p>
+<h3 id="business-specifications-etrade-design-language">Business specifications: ETrade Design Language</h3>
+<p>ETrade is an online brokerage firm that also offers a range of financial services. The ETrade design language aims to create an excellent user experience, by ensuring front-end consistency and accessibility across ETrade’s websites and applications. The system consists of foundations, components, patterns and resources, with emphasis on design for the web. Each component displays different variations and states, interactive demos, code snippets, and usage guidelines that include examples of correct and incorrect usage.</p>
+<p>The design system also has an extensive set of UX writing guidelines, which aim to keep voice, tone, and messaging standards in check, while maintaining brand personality. This section includes principles, accessibility guidelines, grammar, punctuation and examples of how writing should be structured within different web elements.</p>
+<h3 id="business-specifications-uber-design-system">Business specifications: Uber Design System</h3>
+<p>Uber’s design system covers nine main elements: logo, color, composition, iconography, illustration, motion, photography, tone of voice and typography. The company takes pride in the system’s flexibility and ease-of-use, maintaining brand consistency across various sub-brands, applications and assets.</p>
+<p>In addition to their visual and style guidelines, Uber’s also created Base Web, an open-source library of UI components that focus on the basics (hence the name, “Base”), such as typography, color, grid and iconography, as well as essential elements like buttons, lists and controls. While these components are designed as basic building blocks, they’re also highly customizable through style overrides and can be configured in many different ways.</p>
+<h3 id="business-specifications-the-guardian-digital-design-system">Business specifications: The Guardian Digital Design System</h3>
+<p>The Guardian digital design system is a visually stunning set of guidelines that you can scroll through page-by-page. It starts with a high-level overview of what a webpage consists of, followed by more granular elements such as fronts, containers, cards and articles.</p>
+<p>Within the card pages, for example, you can see the different options available for card sizes and card types. The design system also demonstrates how the design team treats color, typography, layout, rules and spacing.</p>
+<h3 id="business-specifications-sap-fiori-for-web">Business specifications: SAP Fiori for Web</h3>
+<p>SAP (Systems, Applications and Processing) is an enterprise software applications provider that helps businesses of all sizes run better. The company’s software acts as a centralized system that allows departments to access and share data, and at the heart of these different software is the SAP Fiori for Web design system.</p>
+<p>Built with the company’s SAPUI5 framework, which is a collection of user interfaces for web apps, the company places an emphasis on designing for common components, including navigational elements, tables and user inputs. Big picture, the brand includes guidelines for general principles, using layouts, patterns and controls, as well as concrete guidance to execute a user-centered approach to designing SAP Fiori apps.</p>
+<h3 id="component-framework-shadcn">Component framework: shadcn</h3>
+<p><a href="https://ui.shadcn.com/">shadch: build your component library</a></p>
+<p>TODO</p>
+<h3 id="component-framework-flowbite">Component framework: Flowbite</h3>
+<p><a href="https://flowbite.com/">Flowbite: Build websites even faster with components</a></p>
+<p>TODO</p>
+<h3 id="component-framework-skeletonui">Component framework: SkeletonUI</h3>
+<p><a href="https://www.skeleton.dev/">SkeletonUI adaptive design system</a></p>
+<p>TODO</p>
+<h2 id="evaluations-opinions">Evaluations - Opinions</h2>
+<p><a href="compare-capabilities.tsv">Compare capabilities - TSV table - please update this as we learn more</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Capability</th>
+<th style="text-align: left;">Tags</th>
+<th style="text-align: left;">GOV.UK</th>
+<th style="text-align: left;">NHS UK</th>
+<th style="text-align: left;">ONS UK</th>
+<th style="text-align: left;">18F</th>
+<th style="text-align: left;">shadcn</th>
+<th style="text-align: left;">Flowbite</th>
+<th style="text-align: left;">SkeletonUI</th>
+<th style="text-align: left;">IBM Carbon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Web URL</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Git URL</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Git Updated Date</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">GitHub Issues #</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">GitHub Pull Requests #</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Contact Person</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Contact Email</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Provenance</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">Original</td>
+<td style="text-align: left;">Derived</td>
+<td style="text-align: left;">Derived</td>
+<td style="text-align: left;">Original</td>
+<td style="text-align: left;">Original</td>
+<td style="text-align: left;">Original</td>
+<td style="text-align: left;">Original</td>
+<td style="text-align: left;">Original</td>
+</tr>
+<tr>
+<td style="text-align: left;">Licensing</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Implementation Technologies</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">JS, TS, Svelte, React, Vue, etc.</td>
+<td style="text-align: left;">JS, TS, Svelte, React, Vue, etc.</td>
+<td style="text-align: left;">JS, TS, Svelte, React, Vue, etc.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Capability 1</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Capability 2</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Capability 3</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Accessibility Compliance Statement</td>
+<td style="text-align: left;">#a11y</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Web Content Accessibility Guidelines (WCAG) 2.2</td>
+<td style="text-align: left;">#a11y</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Desktop</td>
+<td style="text-align: left;">#display</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Phone/Tablet</td>
+<td style="text-align: left;">#display</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Watch</td>
+<td style="text-align: left;">#display</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">TV</td>
+<td style="text-align: left;">#display</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">VR/AR</td>
+<td style="text-align: left;">#display</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+</tbody>
+</table>
+<p><a href="compare-components.tsv">Compare components - TSV table - please update this as we learn more</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Tags</th>
+<th style="text-align: left;">GOV.UK</th>
+<th style="text-align: left;">NHS UK</th>
+<th style="text-align: left;">ONS UK</th>
+<th style="text-align: left;">18F</th>
+<th style="text-align: left;">shadcn</th>
+<th style="text-align: left;">Flowbite</th>
+<th style="text-align: left;">SkeletonUI</th>
+<th style="text-align: left;">IBM Carbon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Accordion</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Action Link</td>
+<td style="text-align: left;">#link</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Alert</td>
+<td style="text-align: left;">#alert</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Alert Dialog</td>
+<td style="text-align: left;">#alert</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Aspect Ratio</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Avatar</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Back Link</td>
+<td style="text-align: left;">#link</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Badge</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Breadcrumb</td>
+<td style="text-align: left;">#nav</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Button</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Calendar</td>
+<td style="text-align: left;">#datetime</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Card</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Care Card</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Carousel</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Chart</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Checkbox</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Collapsible</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Combobox</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Command</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Contents List</td>
+<td style="text-align: left;">#nav list</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Context Menu</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Data Table</td>
+<td style="text-align: left;">#table</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Date Input</td>
+<td style="text-align: left;">#time #input</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Date Picker</td>
+<td style="text-align: left;">#time #input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Details</td>
+<td style="text-align: left;">#content</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Dialog</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Do/Don't List</td>
+<td style="text-align: left;">#content #list</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Drawer</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Dropdown Menu</td>
+<td style="text-align: left;">#menu</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Error message</td>
+<td style="text-align: left;">#form #error</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Error summary</td>
+<td style="text-align: left;">#form #error</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Expander</td>
+<td style="text-align: left;">#layout</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Fieldset</td>
+<td style="text-align: left;">#form</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Footer</td>
+<td style="text-align: left;">#section</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Form</td>
+<td style="text-align: left;">#form</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Header</td>
+<td style="text-align: left;">#section</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hint text</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Hover Card</td>
+<td style="text-align: left;">#card</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Image</td>
+<td style="text-align: left;">#graphics</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Inset text</td>
+<td style="text-align: left;">#layout</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Input</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Input OTP</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Label</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Menubar</td>
+<td style="text-align: left;">#menu</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Navigation Menu</td>
+<td style="text-align: left;">#nav #menu</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pagination</td>
+<td style="text-align: left;">#nav</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Panel</td>
+<td style="text-align: left;">#layout</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Popover</td>
+<td style="text-align: left;">#help</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Progress</td>
+<td style="text-align: left;">#ux</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Radio Button</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Radio Group</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Resizable</td>
+<td style="text-align: left;">#responsive</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Review date</td>
+<td style="text-align: left;">#time</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Scroll Area</td>
+<td style="text-align: left;">#responsive</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Select</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Separator</td>
+<td style="text-align: left;">#layout</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sheet</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sidebar</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Skeleton</td>
+<td style="text-align: left;">nan</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Skip link</td>
+<td style="text-align: left;">#nav #link</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Slider</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sonner</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Summary list</td>
+<td style="text-align: left;">#list</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Switch</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Table</td>
+<td style="text-align: left;">#table</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Tabs</td>
+<td style="text-align: left;">#nav</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Tag</td>
+<td style="text-align: left;">#display</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Task list</td>
+<td style="text-align: left;">#list</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Textfield input</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Textarea input</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Toast</td>
+<td style="text-align: left;">#help</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Toggle</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Toggle Group</td>
+<td style="text-align: left;">#input</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Tooltip</td>
+<td style="text-align: left;">#help</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+<tr>
+<td style="text-align: left;">Warning callout</td>
+<td style="text-align: left;">#content</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">✅</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">❌</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+<td style="text-align: left;">?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="by-joel">By Joel</h3>
+<p>What I see in GOV.UK:</p>
+<ul>
+<li>
+<p>Pros: the principles are excellent, and expressed clear ways, and with good examples.</p>
+</li>
+<li>
+<p>Cons: the implementation technology is Mozilla Nunjucks, which is quite outdated by multiple years, and doesn't lead with modern JavaScript practices such as ESM, and seems to have no obvious way to upgrade the whole project to ESM.</p>
+</li>
+</ul>
+<p>As far as I can tell, GOV.UK is the original starting point for the NHS UK digital service manual design system and the UK Office of National Statistics (ONS) Design System.</p>
+<p>What good looks like to me for origin-derivation design systems:</p>
+<ul>
+<li>
+<p>The origin system (i.e. GOV.UK) would have some kind of child list, such as a section that explains "Here are design systems that we know about that are derived from GOV.UK and how they compare."</p>
+</li>
+<li>
+<p>The derivation design systems (i.e. NHS UK, ONS UK) would each have a section that explains "This design system starts with from GOV.UK, then we change these X items because Y".</p>
+</li>
+</ul>
+<p>I haven't yet found derivation explanations.</p>
+<ul>
+<li>
+<p>What good looks like to me here, ideally, is figuring out what/how NHS UK derived from GOV UK, and why the NHS UK team didn't/couldn't send upstream changes. In other words, I haven't found an explanation yet of what makes the NHS UK design system incompatible with the GOV UK design system.</p>
+</li>
+<li>
+<p>As far as I can tell, the GOV.UK derivations shouldn't need to exist, and I mean this in a good way. For example, everything I see in derivations looks prima facie great for all of the UK, and great for upstreaming to GOV UK. I haven't yet found an explanation of why the derivations haven't upstreamed.</p>
+</li>
+</ul>
+<p>Ideally someone on our UI/UX team will do a derivation comparison with these, because they seem to be quite similar yet incompatible.</p>
+<ul>
+<li>
+<p>Until we know more, the safest choice is the original, because it is the most-general, and the easiest to make more-specific later on if we want to use any of the derivations.</p>
+</li>
+<li>
+<p>My educated guess is that there's good work to do here, unifying all three of the UK systems that we know about.</p>
+</li>
+</ul>
+<h2 id="recommendation-decision-outcome">Recommendation - Decision Outcome</h2>
+<p>Given what we know so far, and the immediacy of the emergency department module, we are immediately pursuing the combination of one choice in each category that we believe will keep the most options open for our ongoing improvements and learning. In other words, we need to kickstart real work, and we know that what we learn about our needs may well alter our longer-term choices.</p>
+<ul>
+<li>
+<p>Government guidelines: We are kickstarting with GOV.UK because these guidelines are good enough for now, and definitely intended for all of the UK (including Wales), and we don't need to cut out anything that NHS England might have added that's specific to England.</p>
+</li>
+<li>
+<p>Business specifications: We are kickstarting with Apple Human Interface Guidelines: because these orient more toward high-level principles (especially usability and accessibility), rather than low-level rendering (such as colors, fonts, grids).</p>
+</li>
+<li>
+<p>Component framework: We are kickstarting shadcn because it is free open source, widespread worldwide, has implementations in JavaScript and TypeScript, and has multiple tunings for specific development frameworks, which in turn improves maintainability and testability.</p>
+</li>
+</ul>
+<p>Ways of working:</p>
+<ul>
+<li>
+<p>We start now, and we do continuous improvement as we learn more about the real work.</p>
+</li>
+<li>
+<p>We understand that all of these options are significantly ahead of NHS Wales DHCW can design and develop internally, because we are resourced constrained.</p>
+</li>
+<li>
+<p>We believe that any combination of the above options will be better than none, so we're using the principles of 1) bias for action, 2) don't let perfect be the enemy of the good, 3) ship soon then improve, 4) helping the emergency department staff and getting their direct feedback is a higher priority than any specific pre-planning of colors, fonts, logos, layouts, etc.</p>
+</li>
+</ul>
+<h2 id="consequences">Consequences</h2>
+<p>Positive Consequences:</p>
+<ul>
+<li>
+<p>Consistency: Using a unified design system will ensure a consistent experience across different platforms and applications, improving user familiarity.</p>
+</li>
+<li>
+<p>Accessibility: By following established government and business guidelines, the design will ensure accessibility is prioritized, making the system usable by all.</p>
+</li>
+<li>
+<p>Maintainability: TypeScript’s static typing ensures fewer runtime errors, and a strong component-based system built with Shadcn offers long-term scalability and ease of updates.</p>
+</li>
+<li>
+<p>Flexibility: Shadcn customization options make it adaptable to different design languages, allowing for seamless integration with NHS, GOV.UK, or Material design.</p>
+</li>
+</ul>
+<p>Negative Consequences:</p>
+<ul>
+<li>
+<p>Initial Complexity: Merging different design guidelines may initially increase the complexity of the design process.</p>
+</li>
+<li>
+<p>Overhead: TypeScript requires developers to be proficient in it, and its setup can be more time-consuming compared to JavaScript.</p>
+</li>
+<li>
+<p>Performance: While Shadcn and Flowbite are generally efficient, they may introduce more runtime overhead compared to lightweight frameworks like SkeletonUI, particularly for very minimal or extremely-performance-sensitive applications.</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../ways-of-working/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Ways Of Working (WOW)">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Ways Of Working (WOW)
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="gov-uk-prototype-kit/" class="md-footer__link md-footer__link--next" aria-label="Next: GOV.UK Prototype Kit">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                GOV.UK Prototype Kit
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 GIG Cymru - NHS Wales – <a href="#__consent">Change cookie settings</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+      <div class="md-consent" data-md-component="consent" id="__consent" hidden>
+        <div class="md-consent__overlay"></div>
+        <aside class="md-consent__inner">
+          <form class="md-consent__form md-grid md-typeset" name="consent">
+            
+
+
+  
+
+
+<h4>Cookie consent</h4>
+<p>We use cookies to optimise site functionality and give you the best possible experience, recognise your repeated visits and preferences, as well as to measure the effectiveness of our site and whether users find what they're searching for. With your consent, you're helping us to make our site better.</p>
+<input class="md-toggle" type="checkbox" id="__settings" >
+<div class="md-consent__settings">
+  <ul class="task-list">
+    
+    
+    
+      
+        
+  
+  
+    
+    
+  
+  <li class="task-list-item">
+    <label class="task-list-control">
+      <input type="checkbox" name="github" checked>
+      <span class="task-list-indicator"></span>
+      GitHub
+    </label>
+  </li>
+
+      
+    
+    
+      
+        
+  
+  
+    
+    
+      
+    
+  
+  <li class="task-list-item">
+    <label class="task-list-control">
+      <input type="checkbox" name="analytics" checked>
+      <span class="task-list-indicator"></span>
+      Simple Analytics
+    </label>
+  </li>
+
+      
+    
+  </ul>
+</div>
+<div class="md-consent__controls">
+  
+    
+      <button class="md-button md-button--primary">Accept</button>
+    
+    
+    
+  
+    
+    
+    
+      <label class="md-button" for="__settings">Manage settings</label>
+    
+  
+</div>
+          </form>
+        </aside>
+      </div>
+      <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout((function(){document.querySelector("[data-md-component=consent]").hidden=!1}),250);var form=document.forms.consent;for(var action of["submit","reset"])form.addEventListener(action,(function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map((function(e){return[e,!0]})))),location.hash="",location.reload()}))</script>
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.footer", "content.action.edit", "content.action.view", "content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
