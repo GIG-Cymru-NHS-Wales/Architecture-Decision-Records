@@ -1,19 +1,21 @@
 # Python pacakage management
 
-!!! note
-    Work in Progress
 
-**Status**: first sketch, work in progress, request for collaboration
+!!! info
 
-**Date**: Updated 2025-05-25
+    **Status**: WIP RFC
+    
+    **Updated**: 2025-05-29
 
-**Governance**: To Be Discovered; potentially a combo of this repo partipants, DHCW CISO, NHS Wales UCB peers, etc.
-
-## Context
+## Summary
 
 Effective management of Python dependencies and virtual environments is critical
 for project reproducibility, dependency resolution, performance, and ease of
-use. The team must select a tool or a combination of tools to handle:
+use. The team must select a tool or a combination of tools to handle this.
+
+## Drivers
+
+We need programming language package management because we need:
 
 * Dependency resolution
 * Environment isolation
@@ -22,7 +24,17 @@ use. The team must select a tool or a combination of tools to handle:
 * Speed and scalability
 * Compatibility with CI/CD
 
-We aim to evaluating these tools and possibly others, as time lets us:
+Our priorities in order:
+
+* **Reproducibility**: Lockfiles and deterministic environments
+* **Ease of use**: Clean CLI, minimal configuration, dev experience
+* **Compatibility**: Works well with popular tools and CI/CD systems
+* **Community and support**: Maturity, documentation, adoption
+* **Performance**: Fast dependency resolution and installation
+
+## Options
+
+We aim to evaluate these tools and possibly others, as time lets us:
 
 * [`uv`](https://github.com/astral-sh/uv)
 * [`poetry`](https://python-poetry.org/)
@@ -32,21 +44,11 @@ We aim to evaluating these tools and possibly others, as time lets us:
 * [`conda`](https://docs.conda.io/en/latest/)
 * [`hatch`](https://hatch.pypa.io/)
 
-## Decision Drivers
-
-Priority order:
-
-* **Reproducibility**: Lockfiles and deterministic environments
-* **Ease of use**: Clean CLI, minimal configuration, dev experience
-* **Compatibility**: Works well with popular tools and CI/CD systems
-* **Community and support**: Maturity, documentation, adoption
-* **Performance**: Fast dependency resolution and installation
-
-## Assessment
+## Analyses
 
 Joel's assessments.
 
-### 1. `uv`
+### `uv`
 
 Overall: superb software engineering, bulletproof reliable, and successfully
 replaced poetry on my most-recent client's python project.
@@ -64,7 +66,7 @@ replaced poetry on my most-recent client's python project.
   * Newer and still evolving
   * Fewer plugins and integrations
 
-### 2. `poetry`
+### `poetry`
 
 Summary: a chaotic mess that's caused severe team problems.
 
@@ -82,7 +84,7 @@ Summary: a chaotic mess that's caused severe team problems.
   * Can be strict or opinionated (e.g., editable installs)
   * Slower resolution performance
 
-### 3. `pip + venv + pip-tools`
+### `pip + venv + pip-tools`
 
 Overall: formally correct, but many too many moving pieces.
 
@@ -100,7 +102,7 @@ Overall: formally correct, but many too many moving pieces.
   * Slower dependency resolution
   * Poor UX for larger projects
 
-### 4. `pipenv`
+### `pipenv`
 
 Overall: it's sunsetting so not viable long term.
 
@@ -116,7 +118,7 @@ Overall: it's sunsetting so not viable long term.
   * Slower and sometimes inconsistent resolution
   * Does not use `pyproject.toml`
 
-### 5. `conda`
+### `conda`
 
 Overall: I love conda and it's great for AI/ML work, but didn't play well with
 other kinds of python projects such as Django apps and Flask services.
@@ -133,7 +135,7 @@ other kinds of python projects such as Django apps and Flask services.
   * Environments are larger and less portable
   * Lockfile support not as robust as pip/poetry
 
-### 6. `hatch`
+### `hatch`
 
 Overall: I haven't looked at this yet.
 
@@ -149,6 +151,8 @@ Overall: I haven't looked at this yet.
   * Still growing adoption
   * May be overkill if only dependency management is needed
 
-## Decision
+## Recommendation
 
 Choose uv.
+
+If anyone on the team has specialized needs, such as already working in a conda environment, then freely choose whatever works well in that conda environment.
