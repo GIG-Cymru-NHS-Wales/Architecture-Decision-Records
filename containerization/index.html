@@ -1,0 +1,2544 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://gig-cymru-nhs-wales.github.io/Architecture-Decision-Records/containerization/">
+      
+      
+        <link rel="prev" href="../meta-decisions/spell/">
+      
+      
+        <link rel="next" href="../coordinated-vulnerability-disclosure/">
+      
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Containerization - GIG Cymru NHS Wales - Architecture</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  <script>
+    /* Check if  consent was given for Simple Analytics */
+    var consent = __md_get("__consent")
+    if (consent && consent.analytics) {
+        /* properties not used currently */
+        var property = "" 
+      
+        /* Wait for page to load and application to mount */
+        document.addEventListener("DOMContentLoaded", (event) => {
+            <!-- 100% privacy-first analytics -->
+            var simple_analytics=document.createElement("script");
+            simple_analytics.async=!0;
+            simple_analytics.src="https://scripts.simpleanalyticscdn.com/latest.js";
+            document.body.appendChild(simple_analytics);
+        });    
+      }
+
+  </script>
+  
+    <script>if("undefined"!=typeof __md_analytics){var consent=__md_get("__consent");consent&&consent.analytics&&__md_analytics()}</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="custom" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#containerization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="GIG Cymru NHS Wales - Architecture" class="md-header__button md-logo" aria-label="GIG Cymru NHS Wales - Architecture" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GIG Cymru NHS Wales - Architecture
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Containerization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GIG-Cymru-NHS-Wales/Architecture-Decision-Records/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../design-authority/principles/" class="md-tabs__link">
+          
+  
+  
+  Principles
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../design-authority/dhcw/architecture-decision-record-template/" class="md-tabs__link">
+          
+  
+  
+  Decisions
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="GIG Cymru NHS Wales - Architecture" class="md-nav__button md-logo" aria-label="GIG Cymru NHS Wales - Architecture" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    GIG Cymru NHS Wales - Architecture
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GIG-Cymru-NHS-Wales/Architecture-Decision-Records/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Principles
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Principles
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DHCW Design Authority
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            DHCW Design Authority
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_2" id="__nav_2_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Principles
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Principles
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/architecture-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/cloud-and-infrastructure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud and Infrastructure Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/data-and-analytics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data &amp; Analytics Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/digital-products-and-software-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Products &amp; Software Engineering Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/digital-workplace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Digital Workplace Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/open-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Open Architecture &amp; Integration Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/security-and-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Identity &amp; Security Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/principles/user-centred-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User-Centred Design (UCD) Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Decisions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Decisions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/architecture-decision-record-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Decision Template
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DHCW Design Authority
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            DHCW Design Authority
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Decisions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Decisions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/architecture-decision-record-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture Decision Record Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/architecture-decision-records-naming-conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture Decision Records Naming Convention
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/format-architecture-decision-records-with-markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Format Architecture Decision Records using plaintext Markdown
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/use-architecture-decision-records-and-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use Architecture Decision Records and Structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/dhcw/use-material-for-mkdocs-for-publishing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use Material for MkDocs for Publishing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Enterprise Architecture Metamodel
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Enterprise Architecture Metamodel
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/ea-metamodel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-authority/ea-metamodel/multiple-application-instances/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Multiple Application Instances
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Meta Decisions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Meta Decisions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../meta-decisions/lint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lint
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../meta-decisions/mermaid-for-diagrams/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use Mermaid for Diagrams
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../meta-decisions/site-navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Site Navigation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../meta-decisions/spell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Containerization
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Containerization
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#situation-context-and-problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Situation - Context and Problem Statement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Drivers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#considered-options-and-related-tooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Considered options and related tooling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Considered options and related tooling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summaries-by-chatgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summaries by ChatGPT
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evaluation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#podman" class="md-nav__link">
+    <span class="md-ellipsis">
+      Podman
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serverless-lambda-knative" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serverless (Lambda, Knative)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direct-management-eg-via-systemd-or-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Direct management (e.g., via systemd or scripts)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-orchestration-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubernetes / Orchestration tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decision
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../coordinated-vulnerability-disclosure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Coordinated Vulnerability Disclosure (CVD)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git-organizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git organizations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hosting-data-in-the-united-states-or-the-united-kingdom/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hosting data in the United States or the United Kingdom
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knowledge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knowledge
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../live-dora-metrics-dashboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Live DORA Metrics Dashboards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python-script-runner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    python script runner
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminology-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Terminology services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../united-kingdom-national-cyber-security-centre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    United Kingdom (UK) National Cyber Security Centre (NCSC)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ways-of-working/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ways Of Working (WOW)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#situation-context-and-problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Situation - Context and Problem Statement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Drivers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#considered-options-and-related-tooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Considered options and related tooling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Considered options and related tooling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summaries-by-chatgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summaries by ChatGPT
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evaluation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#podman" class="md-nav__link">
+    <span class="md-ellipsis">
+      Podman
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serverless-lambda-knative" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serverless (Lambda, Knative)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direct-management-eg-via-systemd-or-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Direct management (e.g., via systemd or scripts)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-orchestration-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kubernetes / Orchestration tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decision
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/GIG-Cymru-NHS-Wales/Architecture-Decision-Records/edit/main/doc/containerization/index.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/GIG-Cymru-NHS-Wales/Architecture-Decision-Records/raw/main/doc/containerization/index.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="containerization">Containerization</h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Work in Progress</p>
+</div>
+<p><strong>Status</strong>: first sketch, work in progress, request for collaboration</p>
+<p><strong>Date</strong>: 2025-04-17</p>
+<p><strong>Governance</strong>: To Be Discovered; potentially a combo of this repo participants, DHCW CISO, NHS Wales UCB peers, etc.</p>
+<h2 id="situation-context-and-problem-statement">Situation - Context and Problem Statement</h2>
+<p>To support our software engineering teams with reliable, portable, and secure
+environments for application development, testing, and deployment, we need a
+consistent approach to containerization, container management, and container
+deployment.</p>
+<p>Right now we need:</p>
+<ul>
+<li>
+<p>Capabilities for software engineers to develop software locally in a container.</p>
+</li>
+<li>
+<p>Capabilities for software engineers to download and run software in containers.</p>
+</li>
+</ul>
+<p>Broadly we want to aim for:</p>
+<ul>
+<li>
+<p>Support for <strong>infrastructure-as-code</strong> and CI/CD pipelines.</p>
+</li>
+<li>
+<p>Demand for <strong>rootless</strong> and secure containers (developer-friendly, production-safe).</p>
+</li>
+<li>
+<p>Consideration for <strong>direct vs. orchestrated</strong> container management.</p>
+</li>
+<li>
+<p>Growing interest in <strong>serverless runtimes</strong> and integration with ephemeral compute.</p>
+</li>
+</ul>
+<p>We must decide on:</p>
+<ul>
+<li>
+<p>Container engine(s) to use (such as Docker, Podman, etc.)</p>
+</li>
+<li>
+<p>How we build, run, and manage containers (locally, in CI/CD/CT, in demos, in production, etc).</p>
+</li>
+<li>
+<p>Deployment methods (manual, automated, orchestrated, serverless, etc).</p>
+</li>
+</ul>
+<h2 id="drivers">Drivers</h2>
+<ul>
+<li>
+<p><strong>Compatibility:</strong> Must work well with Git/GitHub, Tofu/Terraform, CI/CD/CT pipelines.</p>
+</li>
+<li>
+<p><strong>Portability:</strong> Support across developer machines and CI environments.</p>
+</li>
+<li>
+<p><strong>Flexibility:</strong> Support serverless where appropriate.</p>
+</li>
+<li>
+<p><strong>Security:</strong> Rootless containers reduce the attack surface.</p>
+</li>
+<li>
+<p><strong>Simplicity:</strong> Avoid Kubernetes unless orchestration is absolutely required.</p>
+</li>
+</ul>
+<h2 id="considered-options-and-related-tooling">Considered options and related tooling</h2>
+<ul>
+<li>
+<p>Container implementations: Docker, Podman, any others?</p>
+</li>
+<li>
+<p>Serverless e.g. closed-source platform-specific such as AWS Fargate Serverless Compute, open-source platform-agnostic such as Knative, any others?</p>
+</li>
+<li>
+<p>Direct management (e.g., via systemd or scripts)</p>
+</li>
+<li>
+<p>Orchestration tools: Kubernetes, any others?</p>
+</li>
+</ul>
+<h3 id="summaries-by-chatgpt">Summaries by ChatGPT</h3>
+<p><strong>Docker</strong> is an open-source platform that enables developers to build, package,
+and run applications in lightweight, portable containers. A container bundles an
+application with all its dependencies, libraries, and configuration files,
+ensuring it runs consistently across different environments—from a developer’s
+laptop to production servers. Docker simplifies software delivery by isolating
+applications from the underlying infrastructure, reducing conflicts and
+streamlining DevOps workflows. It includes tools for building container images,
+managing containers, and orchestrating multi-container applications, and it
+serves as a foundational technology for modern, microservices-based and
+cloud-native architectures.</p>
+<p><strong>Podman</strong> is an open-source container management tool that allows users to
+build, run, and manage containers and pods without requiring a daemon, unlike
+Docker. Developed by Red Hat, Podman is designed with security and rootless
+operation in mind, enabling users to run containers as non-root users for better
+system isolation and compliance. It supports the same container image formats as
+Docker and offers a compatible command-line interface (<code>podman</code> can often
+replace <code>docker</code> commands). Podman also supports Kubernetes YAML generation and
+can manage pods natively, making it a strong choice for secure and
+standards-compliant container workflows.</p>
+<p><strong>Kubernetes</strong> is an open-source container orchestration platform that automates
+the deployment, scaling, management, and networking of containerized
+applications. Originally developed by Google and now maintained by the Cloud
+Native Computing Foundation (CNCF), Kubernetes allows users to define the
+desired state of their applications and ensures that the system continuously
+works to maintain that state. It manages clusters of nodes (servers) and
+coordinates containers to run efficiently across them, handling load balancing,
+service discovery, rolling updates, and self-healing in case of failures.
+Kubernetes is a foundational technology for cloud-native infrastructure,
+enabling resilient, scalable, and portable application deployments across
+diverse environments.</p>
+<p><strong>kubectl</strong> is the command-line tool used to interact with Kubernetes clusters,
+allowing users to deploy applications, inspect and manage cluster resources, and
+view logs or events. It communicates with the Kubernetes API server to execute
+commands such as creating pods, scaling deployments, updating configurations,
+and troubleshooting workloads. The kubectl command is essential for developers
+and administrators working with Kubernetes, providing a powerful and flexible
+interface for managing the full lifecycle of containerized applications.</p>
+<p><strong>Buildah</strong> is an open-source command-line tool designed to create and manage
+container images without requiring a Docker daemon. It enables developers to
+build container images in a flexible and lightweight manner, either by using a
+Dockerfile or through direct commands to add files and configure image layers.
+Buildah is particularly useful in environments where running a full Docker
+daemon is unnecessary, such as in CI/CD pipelines or Kubernetes setups. It
+integrates well with other container tools like Podman and can push images to
+container registries, offering a more efficient and customizable alternative for
+building and managing container images.</p>
+<p><strong>Conmon</strong>** (short for "container monitor") is an open-source tool designed to
+monitor and manage container processes in a lightweight and efficient manner. It
+is typically used in conjunction with container runtimes like Podman and
+Kubernetes to handle the monitoring of container lifecycles, including logging,
+handling the standard input/output streams, and managing the container’s exit
+status. Conmon runs as a subprocess alongside the container, ensuring that the
+container’s logs and process status are properly captured and reported. It
+provides a minimal, low-overhead solution for container monitoring, focusing on
+keeping the container's environment clean and efficient without introducing
+unnecessary complexity.</p>
+<p><strong>Trivy</strong> is an open-source vulnerability and security scanner developed by Aqua
+Security, designed to detect issues in container images, file systems, and
+source code repositories. It scans for a wide range of security problems,
+including OS package vulnerabilities (e.g., in Alpine, Debian, Ubuntu),
+language-specific package issues (e.g., pip, npm, bundler), misconfigurations in
+Kubernetes and Docker, exposed secrets, and software licenses. Trivy is
+lightweight, easy to use, and integrates well into CI/CD pipelines, making it a
+popular tool for DevSecOps workflows to ensure containers and infrastructure are
+secure before deployment.</p>
+<p><strong>Copacetic</strong> is an open-source command-line tool developed by Microsoft and
+hosted under the CNCF Sandbox. It enables DevSecOps teams to patch container
+image vulnerabilities directly, without the need to rebuild the entire image. By
+integrating with popular vulnerability scanners like Trivy, Copacetic identifies
+outdated or vulnerable packages and applies updates as additional layers on top
+of the existing image. This tool is particularly beneficial for patching
+inherited base image vulnerabilities or third-party application images without
+waiting for upstream updates.</p>
+<p><strong>Harbor</strong> is an open-source cloud-native registry project that stores, signs,
+and scans container images for vulnerabilities, with a focus on security,
+compliance, and performance in enterprise environments. Developed by VMware and
+now part of the CNCF (Cloud Native Computing Foundation), Harbor extends Docker
+Registry with features like role-based access control, image replication across
+registries, and integration with vulnerability scanners such as Trivy for
+continuous scanning. It automates security checks on container images as they're
+pushed or pulled, enabling organizations to enforce policies and maintain a
+secure software supply chain throughout the development lifecycle.</p>
+<p><strong>Kind</strong> (Kubernetes in Docker) is an open-source tool for running local
+Kubernetes clusters using Docker container "nodes." Designed primarily for
+testing and development, Kind allows users to spin up lightweight Kubernetes
+clusters without needing virtual machines or external cloud infrastructure. It
+runs each Kubernetes node inside a Docker container, making it ideal for CI/CD
+pipelines, prototyping, and learning Kubernetes in a controlled,
+resource-efficient environment. Kind supports multi-node clusters and integrates
+well with standard Kubernetes tooling like <code>kubectl</code>.</p>
+<p><strong>Crossplane</strong> is an open-source, multi-cloud control plane that enables the
+management of cloud infrastructure and services using Kubernetes-style
+declarative APIs. It extends Kubernetes to allow users to provision and manage
+resources across multiple cloud providers (like AWS, Azure, Google Cloud) and
+on-prem environments from a single control plane. Crossplane enables
+infrastructure as code (IaC) by defining resources using Kubernetes manifests,
+allowing developers to manage everything from databases to networking resources
+and virtual machines. This unified approach simplifies complex infrastructure
+management, promotes consistency across cloud environments, and supports a more
+flexible, scalable architecture for modern cloud-native applications.</p>
+<p><strong>Rancher</strong> is an open-source container management platform that simplifies
+deploying, managing, and scaling Kubernetes clusters across on-premises, cloud,
+and hybrid environments. Developed by SUSE, Rancher provides a centralized user
+interface and API for administering multiple Kubernetes clusters, regardless of
+where they're running. It offers tools for lifecycle management, access control,
+monitoring, security policy enforcement, and integrated application catalogs.
+Rancher streamlines DevOps workflows by abstracting much of the complexity of
+Kubernetes, making it easier for teams to operate and govern containerized
+applications at scale.</p>
+<p><strong>Helm</strong> is an open-source package manager for Kubernetes that helps developers
+and operators define, install, and manage complex Kubernetes applications using
+reusable, version-controlled templates called <em>charts</em>. A Helm chart bundles all
+the necessary Kubernetes manifests—like deployments, services, and config
+maps—into a single package, making it easy to deploy applications consistently
+across environments. Helm simplifies application lifecycle management by
+enabling upgrades, rollbacks, and configuration overrides through values files.
+As a CNCF project, Helm is widely used to streamline Kubernetes operations,
+reduce manual configuration, and promote best practices in infrastructure as
+code.</p>
+<p><strong>Knative</strong> is an open-source platform built on Kubernetes that enables the
+development, deployment, and management of serverless applications. It provides
+a set of components that abstract away the complexity of managing serverless
+workloads, allowing developers to focus on writing code without worrying about
+the underlying infrastructure. Knative includes features like automatic scaling
+(including scaling to zero), event-driven architecture, and support for both
+stateless and stateful workloads. It integrates seamlessly with Kubernetes and
+tools like Istio, offering capabilities for routing, traffic splitting, and
+service management. Knative is ideal for building modern, cloud-native
+applications that need to scale dynamically based on demand while leveraging
+Kubernetes for orchestration.</p>
+<p><strong>Amazon Web Services (AWS) Fargate</strong> is a serverless compute engine for
+containers that allows users to run containerized applications without having to
+manage the underlying server infrastructure. Integrated with Amazon ECS (Elastic
+Container Service) and Amazon EKS (Elastic Kubernetes Service), Fargate
+automatically provisions, scales, and manages compute resources needed to run
+containers, so developers can focus on building and deploying applications. With
+Fargate, there’s no need to choose instance types or manage cluster
+capacity—users simply define their container requirements, and AWS handles the
+rest, offering a pay-as-you-go model that improves scalability, security, and
+operational efficiency.</p>
+<p><strong>Amazon Web Services (AWS) Elastic Container Service (ECS)</strong> is a fully managed
+container orchestration service provided by AWS, designed to simplify the
+deployment, management, and scaling of containerized applications. It allows
+users to run and manage Docker containers across a cluster of virtual machines,
+using tasks and services to automate container deployment, scaling, and
+networking. ECS integrates seamlessly with other AWS services like Elastic Load
+Balancing, IAM, and CloudWatch, providing a secure and scalable platform for
+containerized applications. ECS offers two launch types: EC2 (for running
+containers on EC2 instances) and Fargate (for serverless container management),
+giving users flexibility in how they manage their container infrastructure.</p>
+<p><strong>Amazon Web Services (AWS) Elastic Kubernetes Service (Amazon EKS)</strong> is a
+managed service provided by AWS that simplifies the deployment, management, and
+scaling of containerized applications using Kubernetes. EKS automatically
+handles tasks like cluster provisioning, patching, and scaling, allowing
+developers to focus on building and deploying applications rather than managing
+infrastructure. It integrates seamlessly with other AWS services such as Elastic
+Load Balancing, IAM, and Amazon VPC, providing security, networking, and
+monitoring capabilities. EKS supports both AWS infrastructure and on-premises
+environments, making it ideal for running scalable, resilient containerized
+applications in a secure and managed Kubernetes environment.</p>
+<p><strong>Google Kubernetes Engine (GKE)</strong> is a fully managed Kubernetes service
+provided by Google Cloud, designed to simplify the deployment, management, and
+scaling of containerized applications using Kubernetes. GKE handles the
+complexities of Kubernetes, such as managing the control plane, upgrades, and
+scaling, while giving users full control over the worker nodes and container
+workloads. It offers integrated features like auto-scaling, monitoring,
+security, and load balancing, as well as deep integration with other Google
+Cloud services, enabling seamless DevOps workflows and efficient cloud-native
+application management. GKE provides a highly available and reliable platform
+for running applications at scale, making it one of the most popular managed
+Kubernetes services in the cloud.</p>
+<p><strong>Microsoft Azure Kubernetes Service (AKS)</strong> is a managed Kubernetes service
+provided by Microsoft Azure that simplifies the deployment, management, and
+scaling of containerized applications using Kubernetes. With AKS, Microsoft
+handles the Kubernetes control plane, including updates, patching, and scaling,
+allowing developers to focus on building and running their applications rather
+than managing infrastructure. AKS integrates with Azure’s ecosystem, providing
+built-in monitoring, security features, and seamless integration with other
+Azure services like Azure Active Directory, networking, and storage. It supports
+automated scaling, load balancing, and rolling updates, making it easier to
+deploy, maintain, and scale applications in a cloud-native environment.</p>
+<p><strong>ArgoCD</strong> is an open-source continuous delivery (CD) tool for Kubernetes that
+automates the deployment of applications using GitOps principles. It enables
+declarative management of Kubernetes resources by linking them to Git
+repositories, where application configurations and manifests are stored. ArgoCD
+continuously monitors these repositories for changes and automatically applies
+them to the Kubernetes clusters, ensuring the deployed state matches the desired
+configuration in Git. It provides a user-friendly web interface and CLI for
+managing applications, visualizing deployment status, and rolling back changes
+when necessary. By integrating with Git as the source of truth, ArgoCD ensures a
+secure, auditable, and automated workflow for Kubernetes application delivery.</p>
+<p><strong>Portainer</strong> is an open-source, lightweight container management platform that
+simplifies the deployment, management, and monitoring of Docker and Kubernetes
+environments. It provides a user-friendly web interface for managing
+containerized applications, allowing users to easily create, configure, and
+monitor containers, images, networks, and volumes. Portainer supports both
+Docker and Kubernetes clusters, offering a unified management interface for
+users who may work with different container orchestration systems. It also
+provides role-based access control (RBAC) and a variety of features to
+streamline DevOps workflows, making it a popular choice for both beginners and
+experienced developers looking to manage containers in a simplified, accessible
+way.</p>
+<h2 id="evaluation">Evaluation</h2>
+<h3 id="docker">Docker</h3>
+<p>Pros:</p>
+<ul>
+<li>
+<p>Ubiquity</p>
+</li>
+<li>
+<p>Wide ecosystem</p>
+</li>
+<li>
+<p>Docker Compose is very handy.</p>
+</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>
+<p>Requires daemon</p>
+</li>
+<li>
+<p>Default setup needs root access unless configured</p>
+</li>
+<li>
+<p>Licensing shenanigans</p>
+</li>
+</ul>
+<h3 id="podman">Podman</h3>
+<p>Pros:</p>
+<ul>
+<li>
+<p>Rootless</p>
+</li>
+<li>
+<p>Daemonless</p>
+</li>
+<li>
+<p>OCI-compatible</p>
+</li>
+<li>
+<p>Docker CLI compatible</p>
+</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>
+<p>Some ecosystem gaps</p>
+</li>
+<li>
+<p>Fewer tutorials and LLM prompts</p>
+</li>
+</ul>
+<h3 id="serverless-lambda-knative">Serverless (Lambda, Knative)</h3>
+<p>Pros:</p>
+<ul>
+<li>
+<p>Auto-scaling</p>
+</li>
+<li>
+<p>No infra to manage.</p>
+</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>
+<p>Cold start latency</p>
+</li>
+<li>
+<p>Limited runtime control</p>
+</li>
+<li>
+<p>Vendor-specific setup doesn't lend itself to multi-cloud resilience</p>
+</li>
+<li>
+<p>No overlap with local tooling</p>
+</li>
+</ul>
+<h3 id="direct-management-eg-via-systemd-or-scripts">Direct management (e.g., via systemd or scripts)</h3>
+<p>Pros:</p>
+<ul>
+<li>
+<p>Lightweight, fast, easy</p>
+</li>
+<li>
+<p>Excellent for local software engineering</p>
+</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>
+<p>Lacks orchestration</p>
+</li>
+<li>
+<p>Not scalable</p>
+</li>
+<li>
+<p>Not easy in the cloud</p>
+</li>
+</ul>
+<h3 id="kubernetes-orchestration-tools">Kubernetes / Orchestration tools</h3>
+<p>Pros:</p>
+<ul>
+<li>
+<p>By far the most powerful, scalable, and capable, for professional operations teams</p>
+</li>
+<li>
+<p>Definitely where we want to be aiming in the next couple of years</p>
+</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>
+<p>Complex - probably too complex to ask mid-level software engineers to pick up for a non-ops project</p>
+</li>
+<li>
+<p>Overhead - probably too big a lift right now for us, because we don't have the networking setups</p>
+</li>
+</ul>
+<h2 id="implications">Implications</h2>
+<ul>
+<li>
+<p>Software engineering developer environments should transition to containers where feasible.</p>
+</li>
+<li>
+<p>CI/CD/CT pipelines will include container build steps with containers, depending on runner environment.</p>
+</li>
+<li>
+<p>Documentation and training needs to be created for software engineers to learn about containerization.</p>
+</li>
+<li>
+<p>For more-complex deployment needs, we'll need to create a path for
+  containerization leading to eventual use of Kubernetes or serverless platforms
+  depending on cost/performance trade-offs.</p>
+</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li>
+<p><a href="https://podman.io">Podman Documentation</a></p>
+</li>
+<li>
+<p><a href="https://docs.docker.com">Docker Documentation</a></p>
+</li>
+<li>
+<p><a href="https://opencontainers.org/">Open Container Initiative (OCI)</a></p>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/lambda/latest/dg/images-create.html">AWS Lambda Container Support</a></p>
+</li>
+</ul>
+<h2 id="decision">Decision</h2>
+<p>We will adopt the following containerization and management strategy:</p>
+<p>Container Engine:</p>
+<ul>
+<li>
+<p>Use <strong>Podman</strong> as the default engine for local development and rootless use cases.</p>
+</li>
+<li>
+<p>Support <strong>Docker</strong> where Podman isn't viable, such as a project already using Docker Compose.</p>
+</li>
+</ul>
+<p>Container Image Management:</p>
+<ul>
+<li>
+<p>Use <strong>OCI-compliant</strong> image builds.</p>
+</li>
+<li>
+<p>Store and retrieve images via internal and external registries (e.g., ECR, Docker Hub, GitHub Container Registry).</p>
+</li>
+</ul>
+<p>Execution and Management:</p>
+<ul>
+<li>
+<p>For local development: encourage <strong>Podman rootless</strong> containers to increase security and reduce dependency on Docker daemon.</p>
+</li>
+<li>
+<p>For CI/CD/CT: Use <strong>containerized runners</strong> (e.g., GitHub Actions, GitLab Runners) with Podman setups depending on environment support.</p>
+</li>
+<li>
+<p>For ephemeral execution: leverage serverless runtimes when the workload fits.</p>
+</li>
+</ul>
+<p>Infrastructure as Code Integration:</p>
+<ul>
+<li>
+<p>Container lifecycle (build, deploy, destroy) will be managed through IaC tools such as Tofu/Terraform, or similar complementary technologies such as Dagger, Pulumi or Ansible. We intend to do a complementary ADR for these.</p>
+</li>
+<li>
+<p>All container-related infra should be declarative and version-controlled.</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../meta-decisions/spell/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Spell">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Spell
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../coordinated-vulnerability-disclosure/" class="md-footer__link md-footer__link--next" aria-label="Next: Coordinated Vulnerability Disclosure (CVD)">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Coordinated Vulnerability Disclosure (CVD)
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 GIG Cymru - NHS Wales – <a href="#__consent">Change cookie settings</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+      <div class="md-consent" data-md-component="consent" id="__consent" hidden>
+        <div class="md-consent__overlay"></div>
+        <aside class="md-consent__inner">
+          <form class="md-consent__form md-grid md-typeset" name="consent">
+            
+
+
+  
+
+
+<h4>Cookie consent</h4>
+<p>We use cookies to optimise site functionality and give you the best possible experience, recognise your repeated visits and preferences, as well as to measure the effectiveness of our site and whether users find what they're searching for. With your consent, you're helping us to make our site better.</p>
+<input class="md-toggle" type="checkbox" id="__settings" >
+<div class="md-consent__settings">
+  <ul class="task-list">
+    
+    
+    
+      
+        
+  
+  
+    
+    
+  
+  <li class="task-list-item">
+    <label class="task-list-control">
+      <input type="checkbox" name="github" checked>
+      <span class="task-list-indicator"></span>
+      GitHub
+    </label>
+  </li>
+
+      
+    
+    
+      
+        
+  
+  
+    
+    
+      
+    
+  
+  <li class="task-list-item">
+    <label class="task-list-control">
+      <input type="checkbox" name="analytics" checked>
+      <span class="task-list-indicator"></span>
+      Simple Analytics
+    </label>
+  </li>
+
+      
+    
+  </ul>
+</div>
+<div class="md-consent__controls">
+  
+    
+      <button class="md-button md-button--primary">Accept</button>
+    
+    
+    
+  
+    
+    
+    
+      <label class="md-button" for="__settings">Manage settings</label>
+    
+  
+</div>
+          </form>
+        </aside>
+      </div>
+      <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout((function(){document.querySelector("[data-md-component=consent]").hidden=!1}),250);var form=document.forms.consent;for(var action of["submit","reset"])form.addEventListener(action,(function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map((function(e){return[e,!0]})))),location.hash="",location.reload()}))</script>
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.footer", "content.action.edit", "content.action.view", "content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>

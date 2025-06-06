@@ -1,0 +1,18 @@
+<script>
+    /* Check if  consent was given for Simple Analytics */
+    var consent = __md_get("__consent")
+    if (consent && consent.analytics) {
+        /* properties not used currently */
+        var property = "{{ config.extra.analytics.property }}" 
+      
+        /* Wait for page to load and application to mount */
+        document.addEventListener("DOMContentLoaded", (event) => {
+            <!-- 100% privacy-first analytics -->
+            var simple_analytics=document.createElement("script");
+            simple_analytics.async=!0;
+            simple_analytics.src="https://scripts.simpleanalyticscdn.com/latest.js";
+            document.body.appendChild(simple_analytics);
+        });    
+      }
+
+  </script>
