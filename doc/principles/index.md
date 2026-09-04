@@ -6,7 +6,10 @@ help ensure consistency, promote best practices, and align our technology
 decisions with organisational goals. They must be adopted when building
 and procuring technical solutions.
 
-Our principles are developed and approved by the [DHCW Technical Design Authority (TDA)](../design-authority/dhcw/tda-terms-of-reference.md).
+Our foundational [Architecture Principles](architecture-principles.md) are approved
+nationally by the [NHS Wales Standards and Architecture Group (SAG)](../design-authority/nhs-wales/sag-terms-of-reference.md)
+and adopted by DHCW. The domain-specific principles below are developed and
+approved by the [DHCW Technical Design Authority (TDA)](../design-authority/dhcw/tda-terms-of-reference.md).
 
 Principles apply across various contexts, technologies, and systems and are
 stable over time, even as specific technologies or situations change.
@@ -35,11 +38,12 @@ published by the [Centre for Digital Public Services](https://digitalpublicservi
 
 ## Approved Principles
 
-The following principles have been formally reviewed and approved by the DHCW
-Technical Design Authority (TDA):
+The following principles have been formally reviewed and approved, either
+nationally by SAG or by the DHCW Technical Design Authority (TDA):
 
 * [Architecture Principles](architecture-principles.md) - Our foundational
-  principles that guide all architectural decisions
+  principles, [approved nationally by SAG](../design-authority/nhs-wales/sag-terms-of-reference.md)
+  and adopted by DHCW, with DHCW's rationale and implications for each
 * [Cloud & Infrastructure](cloud-and-infrastructure.md) - Principles for
   cloud adoption and infrastructure design
 * [Data & Analytics](data-and-analytics.md) - Guidelines for data

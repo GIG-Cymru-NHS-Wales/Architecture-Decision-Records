@@ -1,14 +1,30 @@
 # Welcome to NHS Wales Architecture
 
-This site serves as a repository for sharing NHS Wales architectural
-knowledge, decisions, and principles. It is maintained by [Digital Health and Care Wales (DHCW)](https://dhcw.nhs.wales/).
+This site is a shared home for NHS Wales architectural knowledge, decisions,
+and principles. It is maintained by [Digital Health and Care Wales (DHCW)](https://dhcw.nhs.wales/).
+
+## NHS Wales and Organisation-Specific Content
+
+Content on this site is organised into two levels, reflected throughout the
+navigation:
+
+- **NHS Wales** - National content, approved by the
+  [NHS Wales Standards and Architecture Group (SAG)](design-authority/nhs-wales/sag-terms-of-reference.md),
+  for adoption across all of NHS Wales.
+- **Organisation** - Local content maintained by an individual NHS Wales
+  organisation, including its own rationale, implications, and governance.
+  Today, this is limited to [DHCW](https://dhcw.nhs.wales/); almost everything
+  on this site currently falls under this DHCW-specific level.
 
 ## What You'll Find Here
 
 ### Architecture Principles
 
 Our [Architecture Principles](principles/index.md) guide how we design and build
-systems across NHS Wales. These principles cover areas including:
+systems across NHS Wales. The foundational principles are
+[approved nationally by SAG](principles/nhs-wales/architecture-principles.md);
+DHCW then adopts them, adding its own rationale and implications, and
+supplements them with DHCW-specific principles covering areas including:
 
 - User-Centred Design
 - Security and Identity
@@ -17,12 +33,28 @@ systems across NHS Wales. These principles cover areas including:
 - Data and Analytics
 - Open Architecture
 
+### Design Authority
+
+The [NHS Wales Standards and Architecture Group (SAG)](design-authority/nhs-wales/index.md)
+is the national body with authority to approve architecture principles,
+standards, and decisions for use across NHS Wales.
+
+The [DHCW Technical Design Authority](design-authority/index.md) (TDA) adopts
+SAG's national principles and oversees DHCW's own architectural decisions,
+ensuring alignment with DHCW's and wider NHS Wales's strategic objectives.
+You'll find:
+
+- Our ADR process and templates
+- Terms of reference
+- Meeting records and decisions
+- Enterprise architecture metamodel
+
 ### Architecture Decisions
 
 We use Architecture Decision Records (ADRs) to document important architectural
 choices, including their context, consequences, and rationale. This
 documentation helps teams understand not just what was decided, but why those
-decisions were made.
+decisions were made. Decisions published here are currently DHCW-specific.
 
 Our decisions are organised into three categories:
 
@@ -32,17 +64,6 @@ Our decisions are organised into three categories:
   processes, development workflows, and operational procedures
 - **Technical Decisions**: Technology choices, system architectures, integration
   patterns, and infrastructure decisions
-
-### Design Authority
-
-The [DHCW Technical Design Authority](design-authority/index.md) (TDA) oversees
-architectural decisions and ensures alignment with NHS Wales's strategic
-objectives. You'll find:
-
-- Our ADR process and templates
-- Terms of reference
-- Meeting records and decisions
-- Enterprise architecture metamodel
 
 ## Getting Started
 

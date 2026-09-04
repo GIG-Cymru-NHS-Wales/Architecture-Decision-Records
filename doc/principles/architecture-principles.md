@@ -1,13 +1,16 @@
 # Architecture Principles
 
-!!! success "Approved"
+!!! success "Adopted"
 
-    These principles have been approved by the DHCW TDA
+    DHCW adopts the [NHS Wales Architecture Principles](nhs-wales/architecture-principles.md),
+    approved nationally by the [NHS Wales Standards and Architecture Group (SAG)](../design-authority/nhs-wales/sag-terms-of-reference.md).
+
+    The rationale and implications below have been approved by the DHCW
+    Technical Design Authority (TDA) and apply to DHCW only.
 
 ## 1. Start with User Needs
 
-Digital services must be designed around the identified, evidence-based needs
-of their users.
+See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#1-start-with-user-needs).
 
 See also [User Centred Design Principles](user-centred-design.md).
 
@@ -34,8 +37,7 @@ See also [User Centred Design Principles](user-centred-design.md).
 
 ## 2. Design for Change
 
-Digital services must be architected to be loosely coupled and highly cohesive,
-enabling them to evolve easily and safely over time.
+See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#2-design-for-change).
 
 See also [Digital Products and Software Engineering](digital-products-and-software-engineering.md).
 
@@ -67,8 +69,7 @@ See also [Digital Products and Software Engineering](digital-products-and-softwa
 
 ## 3. Embed Security and Privacy by Design
 
-Security and privacy must be treated as core quality attributes, embedded
-throughout the entire service lifecycle from inception to decommissioning.
+See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#3-embed-security-and-privacy-by-design).
 
 See also [Security and Identity Principles](security-and-identity.md).
 
@@ -99,21 +100,15 @@ See also [Security and Identity Principles](security-and-identity.md).
     * All security-relevant events must be logged to a secure, immutable audit
         trail to support monitoring, investigation, and incident response.
 
-## 4. Use the National Data Resource
+## 4. Use the Welsh Health Data Space
 
-Services should read from and write to the National Data Resource, contributing
-to a single, comprehensive record for each citizen. This supports both
-longitudinal records and real-time pathways. Services should not use direct
-point-to-point integrations but instead exchange data through the National
-Data Resource.
-
-See also [Data and Analytics Principles](data-and-analytics.md).
+See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#4-use-the-welsh-health-data-space).
 
 ??? info "Rationale"
 
     Architectures based on point-to-point data integrations and data sharing
     are complex, brittle, and expensive to maintain. This principle avoids
-    these issues by establishing the National Data Resource as a central hub
+    these issues by establishing the Welsh Health Data Space as a central hub
     for data exchange, removing the need for direct data messaging, copying and
     migrations between individual applications. This radically simplifies the
     landscape, ensuring that all services are working from a consistent, shared
@@ -121,7 +116,7 @@ See also [Data and Analytics Principles](data-and-analytics.md).
     of decisions being made on stale or conflicting information.
 
     While applications retain stewardship and mastery of their own data, their
-    mandatory, real-time synchronisation with the National Data Resource is
+    mandatory, real-time synchronisation with the Welsh Health Data Space is
     what ensures consistency, quality, and clear provenance across the system.
     This model provides a complete, trustworthy view of patient information.
     Furthermore, because data is persisted in the shared record, it mitigates
@@ -131,12 +126,12 @@ See also [Data and Analytics Principles](data-and-analytics.md).
 
 ??? note "Implications"
 
-    * Services must read data from the National Data Resource, treating it as a
+    * Services must read data from the Welsh Health Data Space, treating it as a
         source of truth, updating their internal data store as appropriate. 
-    * Services must write data changes to the National Data Resource with
+    * Services must write data changes to the Welsh Health Data Space with
         minimum delay, so that other services always have access to current
         data. 
-    * All interactions with the National Data Resource occur through versioned,
+    * All interactions with the Welsh Health Data Space occur through versioned,
         documented, and discoverable open APIs. Direct database access is
         prohibited.
     * Services should not share data directly with other services, because this
@@ -155,14 +150,13 @@ See also [Data and Analytics Principles](data-and-analytics.md).
         of that data.
     * Procurement processes for new systems must contractually mandate
         compliance with this principle, ensuring any proposed solution will
-        integrate with the National Data Resource via the required APIs.
+        integrate with the Welsh Health Data Space via the required APIs.
     * Existing systems must have a clear roadmap to integrate fully with the
-        National Data Resource. 
+        Welsh Health Data Space.
 
 ## 5. Enable Interoperability with Open APIs
 
-All digital services must expose their data and functionality through
-well-defined, secure, and open APIs.
+See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#5-enable-interoperability-with-open-apis).
 
 See also [Open Architecture & Integration Principles](open-architecture.md).
 
@@ -192,10 +186,9 @@ See also [Open Architecture & Integration Principles](open-architecture.md).
         shared file systems, or proprietary protocols. All integration must be
         via the published APIs.
 
-## 6. Build for Reuse, Use Shared Platforms
+## 6. Select for Reuse, Use Shared Platforms
 
-Digital services must reuse existing common platforms and components. New
-components must be built for reuse unless a clear exception is justified.
+See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#6-select-for-reuse-use-shared-platforms).
 
 ??? info "Rationale"
 
@@ -228,11 +221,9 @@ components must be built for reuse unless a clear exception is justified.
     * There must be a clear process for teams to contribute improvements and
         bug fixes back to the common platforms and components they use.
 
-## 7. Deliver Sustainable Services
+## 7. Deliver Sustainable and Affordable Services
 
-Digital services must be designed, delivered, and operated in a financially,
-technically, and environmentally sustainable manner throughout their entire
-lifecycle.
+See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#7-deliver-sustainable-and-affordable-services).
 
 ??? info "Rationale"
 
@@ -275,11 +266,9 @@ lifecycle.
     * Procurement of hardware and services should consider the environmental
         impact of the entire supply chain.
 
-## 8. Public Cloud First
+## 8. Be Cloud Capable
 
-Public cloud is the default hosting environment for all new and modernised
-digital services. Any alternative deployment model requires a documented and
-approved exception.
+See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#8-be-cloud-capable).
 
 See also [Cloud and Infrastructure Principles](cloud-and-infrastructure.md).
 
@@ -317,8 +306,7 @@ See also [Cloud and Infrastructure Principles](cloud-and-infrastructure.md).
 
 ## 9. Build for Modern Browsers
 
-User-facing digital services must be browser-based, responsive, and compliant
-with current web and accessibility standards.
+See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#9-build-for-modern-browsers).
 
 See also [User Centred Design Principles](user-centred-design.md).
 
@@ -353,8 +341,7 @@ See also [User Centred Design Principles](user-centred-design.md).
 
 ## 10. Design for Public Internet
 
-Digital services must be built using modern, open, and widely adopted internet
-standards and protocols.
+See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#10-design-for-public-internet).
 
 ??? info "Rationale"
 

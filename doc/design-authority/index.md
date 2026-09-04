@@ -1,5 +1,12 @@
 # Introduction
 
+!!! info "DHCW"
+
+    This section covers the Digital Health and Care Wales (DHCW) Technical
+    Design Authority (TDA). For the national governance body, see
+    [NHS Wales Design Authority](nhs-wales/index.md), including the
+    [SAG Terms of Reference](nhs-wales/sag-terms-of-reference.md).
+
 The Digital Health and Care Wales (DHCW) Technical Design Authority (TDA) is a key
 governance body that commissions, owns, and steers the development of DHCW's
 Enterprise Architecture. The TDA ensures alignment with strategic objectives of

@@ -20,6 +20,10 @@ extra_css = ["stylesheets/extra.css"]
 nav = [
   {"Home" = "index.md"},
   {"Principles" = [
+    {"NHS Wales" = [
+      {"Introduction" = "principles/nhs-wales/index.md"},
+      {"Architecture Principles" = "principles/nhs-wales/architecture-principles.md"},
+    ]},
     {"DHCW" = [
       {"Introduction" = "principles/index.md"},
       {"Architecture Principles" = "principles/architecture-principles.md"},
@@ -34,6 +38,10 @@ nav = [
     ]},
   ]},
   {"Design Authority" = [
+    {"NHS Wales" = [
+      {"Introduction" = "design-authority/nhs-wales/index.md"},
+      {"SAG Terms of Reference" = "design-authority/nhs-wales/sag-terms-of-reference.md"},
+    ]},
     {"DHCW" = [
       {"Introduction" = "design-authority/index.md"},
       {"Decision Template" = "design-authority/dhcw/architecture-decision-record-template.md"},

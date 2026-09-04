@@ -86,6 +86,8 @@ files = [
   "doc/design-authority/ea-metamodel/index.md",
   "doc/design-authority/ea-metamodel/multiple-application-instances.md",
   "doc/design-authority/index.md",
+  "doc/design-authority/nhs-wales/index.md",
+  "doc/design-authority/nhs-wales/sag-terms-of-reference.md",
   "doc/index.md",
   "doc/overrides/partials/integrations/analytics/simple.html",
 
@@ -97,6 +99,8 @@ files = [
   "doc/principles/digital-products-and-software-engineering.md",
   "doc/principles/digital-workplace.md",
   "doc/principles/index.md",
+  "doc/principles/nhs-wales/architecture-principles.md",
+  "doc/principles/nhs-wales/index.md",
   "doc/principles/open-architecture.md",
   "doc/principles/security-and-identity.md",
   "doc/principles/user-centred-design.md",
