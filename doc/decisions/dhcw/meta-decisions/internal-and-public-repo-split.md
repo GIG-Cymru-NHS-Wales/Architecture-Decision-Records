@@ -132,7 +132,7 @@ The implementation includes:
 4. A governance process requiring TDAG review and recommendation, followed by
    mandatory approval from the Chief Products and Technology Officer (CPTO) and
    the Chief Information Security Officer (CISO), before any content is added
-   to the `sync-public.toml` manifest (see [ADR Process](../../design-authority/dhcw/architecture-decision-record-process.md)).
+   to the `sync-public.toml` manifest (see [ADR Process](../../../design-authority/dhcw/architecture-decision-record-process.md)).
 5. Technical enforcement of approvals using GitHub `CODEOWNERS` to require
    review from the CPTO for any changes to `sync-public.toml`.
 

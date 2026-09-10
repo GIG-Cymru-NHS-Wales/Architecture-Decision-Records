@@ -149,7 +149,7 @@ Indicators of architectural conformance debt include:
 * Solutions built without engagement with the [ADR process](architecture-decision-record-process.md)
     where one was warranted.
 * Patterns that set precedents inconsistent with the [Architecture Principles](
-    https://gigcymru.github.io/architecture/principles/) or emerging blueprints.
+    https://gigcymru.github.io/architecture/principles/dhcw/) or emerging blueprints.
 
 ### 3. Engineering and Code Debt
 
@@ -257,7 +257,7 @@ how debt is created, recognised, and managed.
 
 ### Architecture Principles
 
-The [Architecture Principles](https://gigcymru.github.io/architecture/principles/)
+The [Architecture Principles](https://gigcymru.github.io/architecture/principles/dhcw/)
 establish the organisation's expectations for how systems should be designed
 and built. Systems that deviate from these principles—without documented
 rationale—represent **architectural conformance debt**. Regular assessment of

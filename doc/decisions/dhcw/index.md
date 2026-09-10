@@ -8,10 +8,10 @@
     improve with time.
 
 This section contains all architecture decisions that have been made and documented
-using our [Architecture Decision Records (ADR) process](../design-authority/dhcw/architecture-decision-record-process.md).
+using our [Architecture Decision Records (ADR) process](../../design-authority/dhcw/architecture-decision-record-process.md).
 The decisions are organised into three main categories:
 
-Each decision is documented using our standard [ADR Template](../design-authority/dhcw/architecture-decision-record-template.md),
+Each decision is documented using our standard [ADR Template](../../design-authority/dhcw/architecture-decision-record-template.md),
 which ensures consistent and complete documentation of the context,
 consequences, and rationale behind each choice.
 

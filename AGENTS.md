@@ -121,20 +121,27 @@ All of these checks run automatically as part of `just qa` and in the GitHub PR 
 
 ## Conventions
 
+### Multi-Organisation URL Structure
+
+Content is organised by organisation (e.g. `doc/{section}/nhs-wales/`, `doc/{section}/dhcw/`,
+`doc/{section}/phw/`) across `doc/decisions/`, `doc/design-authority/`, and `doc/principles/`, so
+published URLs consistently include the org slug. Do not place organisation-specific content
+directly under a section root.
+
 ### Architecture Decision Records (ADRs)
 
-- ADRs reside under the `doc/decisions/` path.
+- ADRs reside under the `doc/decisions/{org}/` path (e.g. `doc/decisions/dhcw/`).
 - ADRs should follow the agreed template: `doc/design-authority/dhcw/architecture-decision-record-template.md`
-- See `doc/decisions/meta-decisions/architecture-decision-records-naming-conventions/index.md` for naming conventions and rules.
+- See `doc/decisions/dhcw/meta-decisions/architecture-decision-records-naming-conventions.md` for naming conventions and rules.
 
 ### Architecture Principles
 
-- Architecture Principles reside under the `doc/principles/` path.
+- Architecture Principles reside under the `doc/principles/{org}/` path (e.g. `doc/principles/dhcw/`).
 
 ### Diagrams
 
 - Mermaid is used to add diagrams to Markdown files.
-- See `doc/decisions/meta-decisions/use-mermaid-for-documenting-diagrams/index.md` for information.
+- See `doc/decisions/dhcw/meta-decisions/use-mermaid-for-documenting-diagrams.md` for information.
 
 ## PR Instructions
 

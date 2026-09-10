@@ -331,7 +331,7 @@ during conversion.
 
 ## Public Synchronisation
 
-See [Internal and Public Repository Split](doc/decisions/meta-decisions/internal-and-public-repo-split.md)
+See [Internal and Public Repository Split](doc/decisions/dhcw/meta-decisions/internal-and-public-repo-split.md)
 for the decision record governing this workflow.
 
 This setup ensures that we can draft and review content internally before it is

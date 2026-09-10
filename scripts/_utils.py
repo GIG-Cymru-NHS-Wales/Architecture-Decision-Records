@@ -2,6 +2,7 @@
 
 import subprocess
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 # tomllib is standard library in Python 3.11+, fall back to tomli for older versions
@@ -9,6 +10,77 @@ try:
     import tomllib
 except ImportError:
     import tomli as tomllib
+
+
+@dataclass(frozen=True)
+class PublishEntry:
+    source: Path
+    destination: Path
+
+
+def parse_publish_manifest(manifest_path: Path) -> list[PublishEntry]:
+    """Parse the sync-public.toml manifest file into source/destination entries."""
+    data = tomllib.loads(manifest_path.read_text(encoding="utf-8"))
+    entries = data.get("files")
+    if not isinstance(entries, list):
+        raise ValueError(f"{manifest_path} must define a 'files' list")
+
+    parsed: list[PublishEntry] = []
+    for item in entries:
+        source_str: str
+        dest_str: str
+
+        if isinstance(item, str):
+            source_str = item
+            dest_str = item
+        elif isinstance(item, dict):
+            source_val = item.get("source")
+            if not isinstance(source_val, str):
+                raise ValueError("Each file entry must include a string 'source'")
+            source_str = source_val
+            dest_str = item.get("dest", source_str)
+            if not isinstance(dest_str, str):
+                raise ValueError("'dest' must be a string when provided")
+        else:
+            raise ValueError("Each entry in 'files' must be a string or table")
+
+        source = Path(source_str)
+        destination = Path(dest_str)
+
+        if source.is_absolute() or destination.is_absolute():
+            raise ValueError(f"Entries must use relative paths: {source_str} -> {dest_str}")
+
+        parsed.append(PublishEntry(source=source, destination=destination))
+
+    return parsed
+
+
+def ensure_inside_repo(repo_root: Path, target: Path) -> None:
+    """Ensure that the target path is within the repository root."""
+    resolved_root = repo_root.resolve()
+    resolved_target = target.resolve(strict=False)
+    if resolved_root not in resolved_target.parents and resolved_root != resolved_target:
+        raise ValueError(f"Path {target} is outside repository root {repo_root}")
+
+
+def normalize_destination(target_root: Path, destination: Path) -> Path:
+    """Normalize the destination path relative to the target root."""
+    resolved_root = target_root.resolve()
+    resolved_destination = (target_root / destination).resolve(strict=False)
+    try:
+        return resolved_destination.relative_to(resolved_root)
+    except ValueError as exc:  # pragma: no cover - defensive
+        raise ValueError(
+            f"Destination {destination} is outside target root {target_root}"
+        ) from exc
+
+
+def load_publish_entries(repo_root: Path, manifest_path: Path) -> list[PublishEntry]:
+    """Load and validate sync-public.toml manifest entries."""
+    entries = parse_publish_manifest(manifest_path)
+    for entry in entries:
+        ensure_inside_repo(repo_root, repo_root / entry.source)
+    return entries
 
 
 def to_repo_relative(path: Path, repo_root: Path) -> str:

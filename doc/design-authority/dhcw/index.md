@@ -4,8 +4,8 @@
 
     This section covers the Digital Health and Care Wales (DHCW) Technical
     Design Authority (TDA). For the national governance body, see
-    [NHS Wales Design Authority](nhs-wales/index.md), including the
-    [SAG Terms of Reference](nhs-wales/sag-terms-of-reference.md).
+    [NHS Wales Design Authority](../nhs-wales/index.md), including the
+    [SAG Terms of Reference](../nhs-wales/sag-terms-of-reference.md).
 
 The Digital Health and Care Wales (DHCW) Technical Design Authority (TDA) is a key
 governance body that commissions, owns, and steers the development of DHCW's
@@ -21,16 +21,16 @@ This section contains the following key areas:
 
 ## Architecture Decision Records (ADRs)
 
-* [Decision Template](dhcw/architecture-decision-record-template.md) - The
+* [Decision Template](architecture-decision-record-template.md) - The
   standard template used for documenting architecture decisions.
-* [Decision Process](dhcw/architecture-decision-record-process.md) - The
+* [Decision Process](architecture-decision-record-process.md) - The
   approved process for proposing, developing, and approving ADRs.
 
 ## Governance
 
-* [TDA Terms of Reference](dhcw/tda-terms-of-reference.md) - The TDA's objectives,
+* [TDA Terms of Reference](tda-terms-of-reference.md) - The TDA's objectives,
   membership, and operating model.
-* [TDAG Terms of Reference](dhcw/tdag-terms-of-reference.md) - The Technical Design Assurance Group's objectives and operating model.
+* [TDAG Terms of Reference](tdag-terms-of-reference.md) - The Technical Design Assurance Group's objectives and operating model.
 * Meeting Records - Documentation of TDA meetings, decisions, and actions
 
 ## Enterprise Architecture

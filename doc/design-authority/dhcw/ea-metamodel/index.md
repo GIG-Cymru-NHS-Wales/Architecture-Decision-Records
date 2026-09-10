@@ -63,5 +63,5 @@ file of this repository, allowing for version control. The contents of the
 latest version of this query can be seen below:
 
 ``` groovy title="ea-metamodel-compliance.groovy"
---8<-- "doc/design-authority/ea-metamodel/ea-metamodel-compliance.groovy"
+--8<-- "doc/design-authority/dhcw/ea-metamodel/ea-metamodel-compliance.groovy"
 ```

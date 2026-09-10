@@ -7,9 +7,9 @@ decisions with organisational goals. They must be adopted when building
 and procuring technical solutions.
 
 Our foundational [Architecture Principles](architecture-principles.md) are approved
-nationally by the [NHS Wales Standards and Architecture Group (SAG)](../design-authority/nhs-wales/sag-terms-of-reference.md)
+nationally by the [NHS Wales Standards and Architecture Group (SAG)](../../design-authority/nhs-wales/sag-terms-of-reference.md)
 and adopted by DHCW. The domain-specific principles below are developed and
-approved by the [DHCW Technical Design Authority (TDA)](../design-authority/dhcw/tda-terms-of-reference.md).
+approved by the [DHCW Technical Design Authority (TDA)](../../design-authority/dhcw/tda-terms-of-reference.md).
 
 Principles apply across various contexts, technologies, and systems and are
 stable over time, even as specific technologies or situations change.
@@ -42,7 +42,7 @@ The following principles have been formally reviewed and approved, either
 nationally by SAG or by the DHCW Technical Design Authority (TDA):
 
 * [Architecture Principles](architecture-principles.md) - Our foundational
-  principles, [approved nationally by SAG](../design-authority/nhs-wales/sag-terms-of-reference.md)
+  principles, [approved nationally by SAG](../../design-authority/nhs-wales/sag-terms-of-reference.md)
   and adopted by DHCW, with DHCW's rationale and implications for each
 * [Cloud & Infrastructure](cloud-and-infrastructure.md) - Principles for
   cloud adoption and infrastructure design
@@ -77,7 +77,7 @@ These principles should be:
 * Referenced in Architecture Decision Records (ADRs)
 
 If you need to deviate from these principles, document your rationale in an ADR
-and seek appropriate approval through the [Governance Process](../design-authority/dhcw/architecture-decision-record-process.md).
+and seek appropriate approval through the [Governance Process](../../design-authority/dhcw/architecture-decision-record-process.md).
 
 ## Contributing
 

@@ -20,7 +20,7 @@ navigation:
 
 ### Architecture Principles
 
-Our [Architecture Principles](principles/index.md) guide how we design and build
+Our [Architecture Principles](principles/dhcw/index.md) guide how we design and build
 systems across NHS Wales. The foundational principles are
 [approved nationally by SAG](principles/nhs-wales/architecture-principles.md);
 DHCW then adopts them, adding its own rationale and implications, and
@@ -39,7 +39,7 @@ The [NHS Wales Standards and Architecture Group (SAG)](design-authority/nhs-wale
 is the national body with authority to approve architecture principles,
 standards, and decisions for use across NHS Wales.
 
-The [DHCW Technical Design Authority](design-authority/index.md) (TDA) adopts
+The [DHCW Technical Design Authority](design-authority/dhcw/index.md) (TDA) adopts
 SAG's national principles and oversees DHCW's own architectural decisions,
 ensuring alignment with DHCW's and wider NHS Wales's strategic objectives.
 You'll find:
@@ -72,9 +72,9 @@ Our decisions are organised into three categories:
 
 2. Want to propose a new architecture decision? Follow our [ADRProcess](design-authority/dhcw/architecture-decision-record-process.md)
 
-3. Looking for guidance? Start with our [Architecture Principles](principles/index.md)
+3. Looking for guidance? Start with our [Architecture Principles](principles/dhcw/index.md)
 
-4. Need to review past decisions? Browse our [Categorised decisions](decisions/index.md)
+4. Need to review past decisions? Browse our [Categorised decisions](decisions/dhcw/index.md)
 
 ## Contributing
 

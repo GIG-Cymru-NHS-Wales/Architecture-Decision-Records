@@ -6,7 +6,7 @@ implementation, and maintenance of architectural frameworks and standards
 across NHS Wales. SAG has the authority to approve national architecture
 principles, standards, and decisions.
 
-Organisations across NHS Wales, such as [DHCW](../index.md), adopt these
+Organisations across NHS Wales, such as [DHCW](../dhcw/index.md), adopt these
 national principles and standards, and supplement them with their own local
 governance, rationale, and implementation detail.
 

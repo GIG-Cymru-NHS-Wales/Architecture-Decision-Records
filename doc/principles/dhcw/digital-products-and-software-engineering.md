@@ -53,7 +53,7 @@ feedback within the specific context of health and care in Wales.
 
 ??? info "Rationale"
 
-    While (User-Centred Design principles](../user-centred-design/index.md)
+    While [User-Centred Design principles](user-centred-design.md)
     focus on the **how** of designing for users, this principle emphasises that
     **what** we build and how it evolves is continuously validated against real
     user requirements to ensure fitness for purpose and positive impact on

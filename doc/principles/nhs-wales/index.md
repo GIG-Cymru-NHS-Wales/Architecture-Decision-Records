@@ -10,7 +10,7 @@ These principles are reviewed, amended, and approved nationally by the
 which has the authority to approve architecture principles and standards for
 use across NHS Wales.
 
-Organisations across NHS Wales - for example [DHCW](../index.md) - adopt
+Organisations across NHS Wales - for example [DHCW](../dhcw/index.md) - adopt
 these national principles and are responsible for their own supporting
 rationale, implications, and more detailed domain-specific principles.
 

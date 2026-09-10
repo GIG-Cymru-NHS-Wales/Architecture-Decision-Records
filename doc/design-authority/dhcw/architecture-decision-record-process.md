@@ -164,7 +164,7 @@ making process documented here.
 ??? Tip "Example Git Workflow"
 
     * Clone the internal repository: `git clone git@github.com:GIGCymru/architecture-internal.git`
-    * Create a branch from `main` to work on (see [Naming Conventions](../../decisions/meta-decisions/architecture-decision-records-naming-conventions.md)):
+    * Create a branch from `main` to work on (see [Naming Conventions](../../decisions/dhcw/meta-decisions/architecture-decision-records-naming-conventions.md)):
       `git checkout main`, `git checkout -b adr/name-of-adr`
     * Make the required changes (add/update files) in your editor of choice.
       (note [the template](architecture-decision-record-template.md))

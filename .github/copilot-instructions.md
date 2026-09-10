@@ -101,29 +101,42 @@ These same checks run automatically on PRs and will block merging if they fail.
 
 ## Documentation Structure
 
+### Multi-Organisation URL Structure
+
+Content is organised by organisation so URLs are consistent site-wide:
+
+- **NHS Wales** (national) - `doc/{section}/nhs-wales/`
+- **DHCW** - `doc/{section}/dhcw/`
+- **PHW** - `doc/{section}/phw/`
+- Other NHS Wales organisations will follow the same `doc/{section}/{org}/` pattern as they are added
+
+This applies across `doc/decisions/`, `doc/design-authority/`, and `doc/principles/`. Do **not**
+place organisation-specific content directly under a section root (e.g. `doc/decisions/*.md`) -
+it must sit under the relevant `{org}/` subfolder so the published URL includes the org slug.
+
 ### Architecture Decision Records (ADRs)
 
-- **Location**: `doc/decisions/`
+- **Location**: `doc/decisions/{org}/` (e.g. `doc/decisions/dhcw/`)
 - **Template**: `doc/design-authority/dhcw/architecture-decision-record-template.md`
-- **Naming conventions**: See `doc/decisions/meta-decisions/simplify-architecture-decision-records-structure.md`
+- **Naming conventions**: See `doc/decisions/dhcw/meta-decisions/simplify-architecture-decision-records-structure.md`
 - **Structure**: Each ADR is a single Markdown file (not a directory) using kebab-case naming
 - **Important**: Always check if an ADR is marked as "Deprecated" or "Superseded" in its status - use the replacement ADR instead
 
 ### Architecture Principles
 
-- **Location**: `doc/principles/`
-- **Examples**: `doc/principles/architecture-principles.md`, `doc/principles/digital-products-and-software-engineering.md`
+- **Location**: `doc/principles/{org}/` (e.g. `doc/principles/dhcw/`)
+- **Examples**: `doc/principles/dhcw/architecture-principles.md`, `doc/principles/dhcw/digital-products-and-software-engineering.md`
 
 ### Design Authority
 
-- **Location**: `doc/design-authority/`
+- **Location**: `doc/design-authority/{org}/` (e.g. `doc/design-authority/dhcw/`)
 - **Templates**: Decision record and design overview templates
 - **Meetings**: Meeting notes in `doc/design-authority/dhcw/meetings/`
 
 ### Diagrams
 
 - **Use Mermaid** for diagrams in markdown files
-- **Reference**: `doc/decisions/meta-decisions/use-mermaid-for-documenting-diagrams.md`
+- **Reference**: `doc/decisions/dhcw/meta-decisions/use-mermaid-for-documenting-diagrams.md`
 
 ## Configuration Files
 
@@ -162,7 +175,7 @@ This internal repository syncs selected files to the public repository:
 
 ### Adding a New ADR
 
-1. Create a single `.md` file in `doc/decisions/{category}/` (e.g., `doc/decisions/technical-decisions/my-decision.md`)
+1. Create a single `.md` file in `doc/decisions/{org}/{category}/` (e.g., `doc/decisions/dhcw/technical-decisions/my-decision.md`)
 2. Use kebab-case for the filename matching the decision title
 3. Copy content from template: `doc/design-authority/dhcw/architecture-decision-record-template.md`
 4. Update `zensical.toml` navigation
@@ -170,11 +183,11 @@ This internal repository syncs selected files to the public repository:
 6. Add cross-references to related documents where relevant
 7. Run `just qa` to validate
 
-**Note**: Do NOT create a directory with `index.md` - use a single file instead (see `doc/decisions/meta-decisions/simplify-architecture-decision-records-structure.md`)
+**Note**: Do NOT create a directory with `index.md` - use a single file instead (see `doc/decisions/dhcw/meta-decisions/simplify-architecture-decision-records-structure.md`)
 
 ### Adding a New Principle
 
-1. Create markdown file in `doc/principles/`
+1. Create markdown file in `doc/principles/{org}/` (e.g. `doc/principles/dhcw/`)
 2. Follow existing principle structure
 3. Update `zensical.toml` navigation
 4. If public: add to `sync-public.toml`

@@ -2,15 +2,15 @@
 
 !!! success "Adopted"
 
-    DHCW adopts the [NHS Wales Architecture Principles](nhs-wales/architecture-principles.md),
-    approved nationally by the [NHS Wales Standards and Architecture Group (SAG)](../design-authority/nhs-wales/sag-terms-of-reference.md).
+    DHCW adopts the [NHS Wales Architecture Principles](../nhs-wales/architecture-principles.md),
+    approved nationally by the [NHS Wales Standards and Architecture Group (SAG)](../../design-authority/nhs-wales/sag-terms-of-reference.md).
 
     The rationale and implications below have been approved by the DHCW
     Technical Design Authority (TDA) and apply to DHCW only.
 
 ## 1. Start with User Needs
 
-See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#1-start-with-user-needs).
+See the [NHS Wales principle statement](../nhs-wales/architecture-principles.md#1-start-with-user-needs).
 
 See also [User Centred Design Principles](user-centred-design.md).
 
@@ -37,7 +37,7 @@ See also [User Centred Design Principles](user-centred-design.md).
 
 ## 2. Design for Change
 
-See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#2-design-for-change).
+See the [NHS Wales principle statement](../nhs-wales/architecture-principles.md#2-design-for-change).
 
 See also [Digital Products and Software Engineering](digital-products-and-software-engineering.md).
 
@@ -69,7 +69,7 @@ See also [Digital Products and Software Engineering](digital-products-and-softwa
 
 ## 3. Embed Security and Privacy by Design
 
-See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#3-embed-security-and-privacy-by-design).
+See the [NHS Wales principle statement](../nhs-wales/architecture-principles.md#3-embed-security-and-privacy-by-design).
 
 See also [Security and Identity Principles](security-and-identity.md).
 
@@ -102,7 +102,7 @@ See also [Security and Identity Principles](security-and-identity.md).
 
 ## 4. Use the Welsh Health Data Space
 
-See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#4-use-the-welsh-health-data-space).
+See the [NHS Wales principle statement](../nhs-wales/architecture-principles.md#4-use-the-welsh-health-data-space).
 
 ??? info "Rationale"
 
@@ -156,7 +156,7 @@ See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#4-u
 
 ## 5. Enable Interoperability with Open APIs
 
-See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#5-enable-interoperability-with-open-apis).
+See the [NHS Wales principle statement](../nhs-wales/architecture-principles.md#5-enable-interoperability-with-open-apis).
 
 See also [Open Architecture & Integration Principles](open-architecture.md).
 
@@ -188,7 +188,7 @@ See also [Open Architecture & Integration Principles](open-architecture.md).
 
 ## 6. Select for Reuse, Use Shared Platforms
 
-See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#6-select-for-reuse-use-shared-platforms).
+See the [NHS Wales principle statement](../nhs-wales/architecture-principles.md#6-select-for-reuse-use-shared-platforms).
 
 ??? info "Rationale"
 
@@ -223,7 +223,7 @@ See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#6-s
 
 ## 7. Deliver Sustainable and Affordable Services
 
-See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#7-deliver-sustainable-and-affordable-services).
+See the [NHS Wales principle statement](../nhs-wales/architecture-principles.md#7-deliver-sustainable-and-affordable-services).
 
 ??? info "Rationale"
 
@@ -268,7 +268,7 @@ See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#7-d
 
 ## 8. Be Cloud Capable
 
-See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#8-be-cloud-capable).
+See the [NHS Wales principle statement](../nhs-wales/architecture-principles.md#8-be-cloud-capable).
 
 See also [Cloud and Infrastructure Principles](cloud-and-infrastructure.md).
 
@@ -306,7 +306,7 @@ See also [Cloud and Infrastructure Principles](cloud-and-infrastructure.md).
 
 ## 9. Build for Modern Browsers
 
-See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#9-build-for-modern-browsers).
+See the [NHS Wales principle statement](../nhs-wales/architecture-principles.md#9-build-for-modern-browsers).
 
 See also [User Centred Design Principles](user-centred-design.md).
 
@@ -341,7 +341,7 @@ See also [User Centred Design Principles](user-centred-design.md).
 
 ## 10. Design for Public Internet
 
-See the [NHS Wales principle statement](nhs-wales/architecture-principles.md#10-design-for-public-internet).
+See the [NHS Wales principle statement](../nhs-wales/architecture-principles.md#10-design-for-public-internet).
 
 ??? info "Rationale"
 

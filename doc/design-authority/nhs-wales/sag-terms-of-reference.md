@@ -31,7 +31,7 @@ approval. For example, the Wales Interoperability Standards Working Group:
 
 ## Governance
 
-Organisations across NHS Wales - for example [DHCW](../index.md) through its
+Organisations across NHS Wales - for example [DHCW](../dhcw/index.md) through its
 [Technical Design Authority](../dhcw/tda-terms-of-reference.md) - adopt
 SAG-approved national principles and standards, supplementing them with their
 own local rationale, implications, and governance.
