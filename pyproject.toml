@@ -6,5 +6,5 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "ghp-import>=2.1.0",
-    "zensical>=0.0.57",
+    "zensical>=0.0.59",
 ]
